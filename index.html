@@ -161,15 +161,18 @@ let questStart=false;
 
 document.addEventListener("keydown",e=>{
 
-if(e.key==="e" && nearCave && !inCave){
+if(e.key==="e" && nearCave){
 
-inCave=true;
+inCave=!inCave;
 
 alert(
-"🕳 洞窟に入った！"
+inCave?
+"🕳 洞窟へ入った！敵が強くなった！":
+"🌳 外へ出た！"
 );
 
 }
+
 
 if(e.key==="e" && nearNpc){
 
@@ -761,6 +764,17 @@ let currentFieldEnemy=null;
 
 function startBattle(field){
 
+enemy=enemies.find(e=>e.name===field.type);
+
+
+if(inCave){
+
+enemy.hp*=2;
+enemy.exp*=2;
+enemy.gold*=2;
+
+}
+
 
 battle=true;
 
@@ -858,15 +872,18 @@ let a,b;
 
 if(player.level <= 3){
 
-type=Math.floor(Math.random()*3);
-
+let type=Math.floor(Math.random()*3);
 
 if(type===0){
 
-a=Math.floor(Math.random()*20)+1;
-b=Math.floor(Math.random()*20)+1;
+let a=Math.floor(Math.random()*30)+1;
+let b=Math.floor(Math.random()*30)+1;
 
 answer=a+b;
+
+explanation=
+a+"+"+b+"="+answer;
+
 
 document.getElementById("question").textContent=
 "🧮 "+a+" + "+b+" = ?";
@@ -876,10 +893,14 @@ document.getElementById("question").textContent=
 
 else if(type===1){
 
-a=Math.floor(Math.random()*20)+1;
-b=Math.floor(Math.random()*20)+1;
+let a=Math.floor(Math.random()*20)+10;
+let b=Math.floor(Math.random()*10)+1;
 
 answer=a-b;
+
+explanation=
+a+"-"+b+"="+answer;
+
 
 document.getElementById("question").textContent=
 "🧮 "+a+" - "+b+" = ?";
@@ -889,17 +910,21 @@ document.getElementById("question").textContent=
 
 else{
 
-a=Math.floor(Math.random()*10)+1;
-b=Math.floor(Math.random()*10)+1;
+
+let a=Math.floor(Math.random()*9)+2;
+let b=Math.floor(Math.random()*9)+2;
+
 
 answer=a*b;
+
+explanation=
+a+"×"+b+"="+answer;
+
 
 document.getElementById("question").textContent=
 "🧮 "+a+" × "+b+" = ?";
 
-
 }
-
 
 }
 
@@ -962,7 +987,6 @@ document.getElementById("question").textContent=
 "👑 "+a+"x = "+(a*x)+"\n x = ?";
 
 
-}
 
 }
 
@@ -973,7 +997,19 @@ document.getElementById("question").textContent=
 
 function levelCheck(){
 
-if(player.exp >= player.level * 20){
+while(player.exp >= player.level*20){
+
+player.exp-=player.level*20;
+
+player.level++;
+
+player.maxHp+=20;
+player.hp=player.maxHp;
+player.attack+=5;
+
+}
+
+{
 
 player.exp-=player.level*20;
 
@@ -1215,7 +1251,7 @@ enemy.hp-=damage;
 else{
 
 
-let damage=10-player.defense;
+let damage=Math.max(1,10-player.defense);
 
 
 if(damage<1){
@@ -1358,7 +1394,17 @@ currentFieldEnemy.alive=false;
 
 setTimeout(()=>{
 
+setTimeout(()=>{
+
+currentFieldEnemy.x=
+Math.random()*900;
+
+currentFieldEnemy.y=
+Math.random()*600;
+
 currentFieldEnemy.alive=true;
+
+},enemyRespawnTime);
 
 },enemyRespawnTime);
 
