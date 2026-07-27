@@ -515,7 +515,22 @@ startBattle(e);
 function draw(){
 
 
+if(inCave){
+
+ctx.fillStyle="#333";
+
+}else{
+
 ctx.fillStyle="#6ab04c";
+
+}
+
+ctx.fillRect(
+0,
+0,
+canvas.width,
+canvas.height
+);
 
 ctx.fillRect(
 0,
@@ -759,24 +774,10 @@ player.size
 
 
 
-let currentFieldEnemy=null;
+
 
 
 function startBattle(field){
-
-enemy=enemies.find(e=>e.name===field.type);
-
-
-if(inCave){
-
-enemy.hp*=2;
-enemy.exp*=2;
-enemy.gold*=2;
-
-}
-
-
-battle=true;
 
 
 let enemies=[
@@ -810,6 +811,22 @@ gold:50
 }
 
 ];
+
+
+enemy=enemies.find(e=>e.name===field.type);
+
+
+
+if(inCave){
+
+enemy.hp*=2;
+enemy.exp*=2;
+enemy.gold*=2;
+
+}
+
+
+battle=true;
 
 
 enemy=enemies.find(e=>e.name===field.type);
@@ -997,6 +1014,9 @@ document.getElementById("question").textContent=
 
 function levelCheck(){
 
+let levelUp=false;
+
+
 while(player.exp >= player.level*20){
 
 player.exp-=player.level*20;
@@ -1004,49 +1024,43 @@ player.exp-=player.level*20;
 player.level++;
 
 player.maxHp+=20;
+
 player.hp=player.maxHp;
+
 player.attack+=5;
 
+levelUp=true;
+
 }
-
-{
-
-player.exp-=player.level*20;
-
-player.level++;
-
 
 
 document.getElementById("exp").textContent=
 player.exp;
 
-player.maxHp+=20;
-
-player.hp=player.maxHp;
-
-
-player.attack+=5;
-
-
-
 document.getElementById("lv").textContent=
 player.level;
 
-
 document.getElementById("hp").textContent=
 player.hp;
-
 
 document.getElementById("maxhp").textContent=
 player.maxHp;
 
 
+if(levelUp){
 
 alert(
 "🎊 レベルアップ！\n\n"+
-"Lv "+player.level+"\n"+
-"HPと攻撃力が上がった！"
+"Lv "+player.level+
+"\nHPと攻撃力アップ！"
 );
+
+}
+
+}
+
+
+
 
 
 }
@@ -1394,8 +1408,6 @@ currentFieldEnemy.alive=false;
 
 setTimeout(()=>{
 
-setTimeout(()=>{
-
 currentFieldEnemy.x=
 Math.random()*900;
 
@@ -1404,7 +1416,6 @@ Math.random()*600;
 
 currentFieldEnemy.alive=true;
 
-},enemyRespawnTime);
 
 },enemyRespawnTime);
 
