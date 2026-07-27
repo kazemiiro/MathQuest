@@ -224,21 +224,24 @@ let fieldEnemies=[
 x:500,
 y:200,
 size:32,
-alive:true
+alive:true,
+type:"スライム"
 },
 
 {
 x:700,
 y:400,
 size:32,
-alive:true
+alive:true,
+type:"ゴブリン"
 },
 
 {
 x:300,
 y:500,
 size:32,
-alive:true
+alive:true,
+type:"オオカミ"
 }
 
 ];
@@ -491,7 +494,15 @@ fieldEnemies.forEach(e=>{
 
 if(e.alive){
 
+if(e.type==="レアドラゴン"){
+
+ctx.fillStyle="gold";
+
+}else{
+
 ctx.fillStyle="red";
+
+}
 
 ctx.fillRect(
 e.x,
@@ -567,9 +578,25 @@ gold:50
 ];
 
 
-enemy=enemies[
-Math.floor(Math.random()*enemies.length)
-];
+enemy=enemies.find(e=>e.name===field.type);
+
+
+// 5%でレアドラゴン出現
+if(Math.random()<0.05){
+
+enemy={
+name:"✨レアドラゴン",
+hp:200,
+exp:200,
+gold:100
+};
+
+alert(
+"✨ レアドラゴンが現れた！"
+);
+
+}
+
 
 enemy.hp += player.level * 5;
 
@@ -783,16 +810,35 @@ document.getElementById("answerInput").value;
 if(Number(input)===answer){
 
 
-enemy.hp-=player.attack;
+let damage=player.attack;
 
+
+// 20%でクリティカル
+if(Math.random()<0.2){
+
+damage*=2;
+
+alert(
+"✨クリティカル！\n"+
+damage+"ダメージ！"
+);
+
+}else{
 
 alert(
 "正解！\n"+
-player.attack+"ダメージ！"
+damage+"ダメージ！"
 );
 
+}
 
-}else{
+
+enemy.hp-=damage;
+
+
+}
+
+else{
 
 
 player.hp-=10;
