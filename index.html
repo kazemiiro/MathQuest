@@ -120,7 +120,9 @@ level:1,
 exp:0,
 
 attack:10,
-gold:0
+gold:0,
+
+weapon:"木の棒"
         
 };
 
@@ -174,7 +176,13 @@ size:32
 
 };
 
+let shop={
 
+x:250,
+y:120,
+size:32
+
+};
 
 // 敵
 
@@ -247,6 +255,19 @@ startBattle();
 
 }
 
+let shopDistance=Math.sqrt(
+
+(player.x-shop.x)**2+
+(player.y-shop.y)**2
+
+);
+
+
+if(shopDistance<60){
+
+buyWeapon();
+
+}
 
 }
 
@@ -354,6 +375,16 @@ npc.size,
 npc.size
 );
 
+    // 武器屋
+
+ctx.fillStyle="purple";
+
+ctx.fillRect(
+shop.x,
+shop.y,
+shop.size,
+shop.size
+);
 
 
 // 主人公
@@ -458,11 +489,11 @@ return;
 
 if(Number(user)===answer){
 
-enemy.hp-=10;
+enemy.hp-=player.attack;
 
 alert(
 "正解！\n"+
-enemy.name+"に10ダメージ！\n"+
+enemy.name+"に"+player.attack+"ダメージ！\n"+
 "敵HP："+enemy.hp
 );
 
@@ -506,6 +537,45 @@ document.getElementById("gold").textContent=
 player.gold;
 
 levelCheck();
+
+function buyWeapon(){
+
+
+if(player.gold>=20){
+
+
+player.gold-=20;
+
+
+player.attack+=10;
+
+
+player.weapon="鉄の剣";
+
+
+document.getElementById("gold").textContent=
+player.gold;
+
+
+alert(
+"⚔ 鉄の剣を買った！\n"+
+"攻撃力+10！"
+);
+
+
+}else{
+
+
+alert(
+"💰 お金が足りない！\n"+
+"鉄の剣は20Gです"
+);
+
+
+}
+
+
+}
 
 
 document.getElementById("exp").textContent=
