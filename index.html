@@ -847,6 +847,7 @@ showBattle();
 
 
 let answer=0;
+let explanation="";
 
 
 function makeQuestion(){
@@ -1230,9 +1231,11 @@ player.hp;
 
 
 alert(
-"不正解！\n10ダメージ"
+"❌ 不正解！\n\n"+
+"正解："+answer+"\n\n"+
+explanation+
+"\n\n10ダメージ"
 );
-
 
 }
 
@@ -1256,6 +1259,23 @@ if(enemy.name==="👑 魔王ドラゴン"){
 
 bossDefeated=true;
 
+player.exp+=500;
+player.gold+=500;
+
+document.getElementById("exp").textContent=
+player.exp;
+
+document.getElementById("gold").textContent=
+player.gold;
+
+
+alert(
+"👑 魔王ドラゴン撃破！\n\n"+
+"EXP +500\n"+
+"💰500G"
+);
+
+
 document.getElementById("battleUI").style.display="none";
 
 document.getElementById("clearUI").style.display="block";
@@ -1263,6 +1283,7 @@ document.getElementById("clearUI").style.display="block";
 return;
 
 }
+    
 
 
 }
