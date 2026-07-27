@@ -532,13 +532,6 @@ canvas.width,
 canvas.height
 );
 
-ctx.fillRect(
-0,
-0,
-canvas.width,
-canvas.height
-);
-
 
 
 // 木
@@ -829,8 +822,6 @@ enemy.gold*=2;
 battle=true;
 
 
-enemy=enemies.find(e=>e.name===field.type);
-
 
 // 5%でレアドラゴン出現
 if(Math.random()<0.05){
@@ -1061,12 +1052,6 @@ alert(
 
 
 
-
-
-}
-
-
-}
 
 function usePotion(){
 
