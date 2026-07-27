@@ -88,6 +88,13 @@ EXP:
 
 💰:
 <span id="gold">0</span>
+
+<br>
+
+⚔ 武器:
+<span id="weapon">
+木の棒
+</span>
     
 </div>
 
@@ -132,9 +139,20 @@ hasSword:false
 
 let keys={};
 
+let nearShop=false;
+
 
 document.addEventListener("keydown",e=>{
+
 keys[e.key]=true;
+
+
+if(e.key==="e" && nearShop){
+
+buyWeapon();
+
+}
+
 });
 
 
@@ -189,6 +207,7 @@ size:32
 
 let enemy = null;
 let battle = false;
+let battleCooldown = false;
 let shopCooldown = false;
 
 
@@ -213,9 +232,31 @@ function loop(){
 
 update();
 
+let shopDistance=Math.sqrt(
+
+(player.x-shop.x)**2+
+(player.y-shop.y)**2
+
+);
+
+
+nearShop = shopDistance < 60;
+
 draw();
 
 requestAnimationFrame(loop);
+
+if(player.x<0)
+player.x=0;
+
+if(player.y<0)
+player.y=0;
+
+if(player.x>canvas.width-player.size)
+player.x=canvas.width-player.size;
+
+if(player.y>canvas.height-player.size)
+player.y=canvas.height-player.size;
 
 }
 
@@ -224,6 +265,8 @@ requestAnimationFrame(loop);
 
 function update(){
 
+
+if(!battle){
 
 if(keys["ArrowUp"])
 player.y-=player.speed;
@@ -240,6 +283,8 @@ player.x-=player.speed;
 if(keys["ArrowRight"])
 player.x+=player.speed;
 
+}
+
 
 // NPCに近づくと戦闘
 
@@ -250,29 +295,21 @@ let distance=Math.sqrt(
 
 );
 
-
-if(distance<60 && !battle){
+if(distance<60 && !battle && !battleCooldown){
 
 startBattle();
 
 }
 
-let shopDistance=Math.sqrt(
 
-(player.x-shop.x)**2+
-(player.y-shop.y)**2
-
-);
-
-
-if(shopDistance<60 && !shopCooldown){
-
-buyWeapon();
 
 }
 
-}
 
+
+
+
+      
 
 
 
@@ -391,6 +428,20 @@ shop.size,
 shop.size
 );
 
+if(nearShop){
+
+ctx.fillStyle="white";
+
+ctx.font="18px sans-serif";
+
+ctx.fillText(
+"Eキーで鉄の剣",
+shop.x-20,
+shop.y-15
+);
+
+}
+
 
 // 主人公
 
@@ -456,14 +507,10 @@ enemy=enemies[
 Math.floor(Math.random()*enemies.length)
 ];
 
-
-alert(
-"⚔ "+enemy.name+"が現れた！\n\n"+
-"HP："+enemy.hp
-);
+enemy.hp += player.level * 5;
 
 
-makeQuestion();
+showBattle();
 
 }
 
@@ -475,89 +522,41 @@ let answer=0;
 function makeQuestion(){
 
 let a=Math.floor(Math.random()*10)+1;
-let b=Math.floor(Math.random()*10)+1;
+let b=Math.floor(Math.random()*5)+1;
 
+let type=Math.floor(Math.random()*3);
+
+
+if(type===0){
 
 answer=a+b;
 
+document.getElementById("question").textContent=
+"🧮 "+a+" + "+b+" = ?";
 
-let user=prompt(
-"🧮 数学問題！\n\n"+
-a+" + "+b+" = ?"
-);
-
-
-if(user==null){
-return;
 }
 
+else if(type===1){
 
-if(Number(user)===answer){
+answer=a-b;
 
-enemy.hp-=player.attack;
+document.getElementById("question").textContent=
+"🧮 "+a+" - "+b+" = ?";
 
-alert(
-"正解！\n"+
-enemy.name+"に"+player.attack+"ダメージ！\n"+
-"敵HP："+enemy.hp
-);
+}
 
-}else{
+else{
 
+answer=a*b;
 
-player.hp-=10;
+document.getElementById("question").textContent=
+"🧮 "+a+" × "+b+" = ?";
 
-
-document.getElementById("hp").textContent=
-player.hp;
-
-
-alert(
-"不正解！\n"+
-"あなたは10ダメージ！"
-);
-
+}
 
 }
 
 
-
-// 勝利
-
-
-
-if(enemy.hp<=0){
-
-alert(
-"🎉 "+enemy.name+"を倒した！\n"+
-"経験値"+enemy.exp+"獲得！\n"+
-"ゴールド"+enemy.gold+"枚獲得！"
-);
-
-
-player.exp+=enemy.exp;
-
-player.gold+=enemy.gold;
-document.getElementById("gold").textContent=
-player.gold;
-
-
-
-
-document.getElementById("exp").textContent=
-player.exp;
-
-}else{
-
-
-setTimeout(makeQuestion,500);
-
-}
-
-battle=false;
-
-
-}
 
 function levelCheck(){
 
@@ -567,9 +566,10 @@ if(player.exp >= player.level * 20){
 
 player.level++;
 
+player.exp-=player.level*20;
 
-player.exp=0;
-
+document.getElementById("exp").textContent=
+player.exp;
 
 player.maxHp+=20;
 
@@ -607,54 +607,205 @@ alert(
 
 function buyWeapon(){
 
+if(shopCooldown){
+    return;
+}
+
+shopCooldown=true;
+
+setTimeout(()=>{
+    shopCooldown=false;
+},1000);
+
 
 if(player.hasSword){
-
-return;
-
+    return;
 }
 
 
 if(player.gold>=20){
 
+    player.gold-=20;
 
-player.gold-=20;
+    player.attack+=10;
+
+    player.weapon="鉄の剣";
+
+    player.hasSword=true;
+
+    document.getElementById("weapon").textContent=
+player.weapon;
+
+    document.getElementById("gold").textContent=
+    player.gold;
 
 
-player.attack+=10;
+    alert(
+    "⚔ 鉄の剣を買った！\n\n"+
+    "攻撃力 +10！\n"+
+    "現在攻撃力："+player.attack
+    );
 
 
-player.weapon="鉄の剣";
+}else{
 
-player.hasSword=true;
+    alert(
+    "💰 お金が足りない！\n"+
+    "鉄の剣は20Gです"
+    );
+
+}
+
+}
+
+function showBattle(){
+
+    document.getElementById("battleUI").style.display="block";
+
+    document.getElementById("enemyName").textContent=
+    "⚔ "+enemy.name;
+
+    document.getElementById("enemyHp").textContent=
+    "HP："+enemy.hp;
+
+    makeQuestion();
+
+}
 
 
-document.getElementById("gold").textContent=
-player.gold;
+function attackEnemy(){
+
+
+let input=
+document.getElementById("answerInput").value;
+
+
+if(Number(input)===answer){
+
+
+enemy.hp-=player.attack;
 
 
 alert(
-"⚔ 鉄の剣を買った！\n\n"+
-"攻撃力 +10！\n"+
-"現在攻撃力："+player.attack
+"正解！\n"+
+player.attack+"ダメージ！"
 );
 
 
 }else{
 
 
+player.hp-=10;
+
+
+document.getElementById("hp").textContent=
+player.hp;
+
+
 alert(
-"💰 お金が足りない！\n"+
-"鉄の剣は20Gです"
+"不正解！\n10ダメージ"
 );
 
 
 }
 
 
+document.getElementById("answerInput").value="";
+
+
+if(enemy.hp<=0){
+
+
+alert(
+"🎉 "+enemy.name+"を倒した！"
+);
+
+
+player.exp+=enemy.exp;
+
+player.gold+=enemy.gold;
+
+
+document.getElementById("exp").textContent=
+player.exp;
+
+document.getElementById("gold").textContent=
+player.gold;
+
+document.getElementById("exp").textContent=
+player.exp;
+
+levelCheck();
+
+
+
+document.getElementById("gold").textContent=
+player.gold;
+
+
+document.getElementById("battleUI").style.display="none";
+
+battleCooldown=true;
+
+setTimeout(()=>{
+
+battleCooldown=false;
+
+},1000);
+
+battle=false;
+
+enemy=null;
+
+}else{
+
+
+document.getElementById("enemyHp").textContent=
+"HP："+enemy.hp;
+
+
+makeQuestion();
+
+
 }
 
-  </script>
+
+}
+
+
+
+
+
+</script>
+
+<div id="battleUI" style="
+display:none;
+position:absolute;
+bottom:20px;
+left:50%;
+transform:translateX(-50%);
+background:#111;
+border:3px solid white;
+width:600px;
+padding:20px;
+text-align:center;
+font-size:25px;
+">
+
+<div id="enemyName"></div>
+
+<div id="enemyHp"></div>
+
+<div id="question"></div>
+
+<input id="answerInput" type="number">
+
+<button onclick="attackEnemy()">
+攻撃！
+</button>
+
+</div>
+
 
 </body>
 </html>
