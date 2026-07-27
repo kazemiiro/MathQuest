@@ -851,38 +851,120 @@ let answer=0;
 
 function makeQuestion(){
 
-let a=Math.floor(Math.random()*10)+1;
-let b=Math.floor(Math.random()*5)+1;
+let type;
+let a,b;
 
-let type=Math.floor(Math.random()*3);
+
+if(player.level <= 3){
+
+type=Math.floor(Math.random()*3);
 
 
 if(type===0){
+
+a=Math.floor(Math.random()*20)+1;
+b=Math.floor(Math.random()*20)+1;
 
 answer=a+b;
 
 document.getElementById("question").textContent=
 "🧮 "+a+" + "+b+" = ?";
 
+
 }
 
 else if(type===1){
+
+a=Math.floor(Math.random()*20)+1;
+b=Math.floor(Math.random()*20)+1;
 
 answer=a-b;
 
 document.getElementById("question").textContent=
 "🧮 "+a+" - "+b+" = ?";
 
+
 }
 
 else{
+
+a=Math.floor(Math.random()*10)+1;
+b=Math.floor(Math.random()*10)+1;
 
 answer=a*b;
 
 document.getElementById("question").textContent=
 "🧮 "+a+" × "+b+" = ?";
 
+
 }
+
+
+}
+
+
+else if(player.level <= 7){
+
+// 一次方程式
+
+let x=Math.floor(Math.random()*10)+1;
+let a=Math.floor(Math.random()*10)+1;
+
+answer=x;
+
+
+document.getElementById("question").textContent=
+"🧮 x + "+a+" = "+(x+a)+"\n x = ?";
+
+}
+
+
+else if(player.level <= 12){
+
+
+// 平方根
+
+let n=[
+[2,4],
+[3,9],
+[4,16],
+[5,25],
+[6,36]
+];
+
+
+let r=n[Math.floor(Math.random()*n.length)];
+
+
+answer=r[0];
+
+
+document.getElementById("question").textContent=
+"🧮 √"+r[1]+" = ?";
+
+
+}
+
+
+else{
+
+// 中3ボス級
+
+let x=Math.floor(Math.random()*10)+1;
+let a=Math.floor(Math.random()*5)+1;
+
+
+answer=x;
+
+
+document.getElementById("question").textContent=
+"👑 "+a+"x = "+(a*x)+"\n x = ?";
+
+
+}
+
+}
+
 
 }
 
