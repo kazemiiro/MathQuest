@@ -347,7 +347,116 @@ player.size
 
 }
 
+// =====================
+// 数学バトルシステム
+// =====================
 
+
+let battle=false;
+
+let enemy={
+    name:"",
+    hp:0
+};
+
+
+function startBattle(){
+
+battle=true;
+
+enemy={
+    name:"スライム",
+    hp:30
+};
+
+
+alert("⚔ スライムが現れた！");
+
+makeQuestion();
+
+}
+
+
+
+let answer=0;
+
+
+function makeQuestion(){
+
+let a=Math.floor(Math.random()*10)+1;
+let b=Math.floor(Math.random()*10)+1;
+
+
+answer=a+b;
+
+
+let user=prompt(
+"🧮 数学問題！\n\n"+
+a+" + "+b+" = ?"
+);
+
+
+if(user==null){
+return;
+}
+
+
+if(Number(user)===answer){
+
+enemy.hp-=10;
+
+alert(
+"正解！\n"+
+"スライムに10ダメージ！\n"+
+"敵HP："+enemy.hp
+);
+
+
+}else{
+
+
+player.hp-=10;
+
+
+document.getElementById("hp").textContent=
+player.hp;
+
+
+alert(
+"不正解！\n"+
+"あなたは10ダメージ！"
+);
+
+
+}
+
+
+
+// 勝利
+
+if(enemy.hp<=0){
+
+alert(
+"🎉 スライムを倒した！"
+);
+
+
+player.exp+=10;
+
+
+battle=false;
+
+
+}else{
+
+
+setTimeout(makeQuestion,500);
+
+}
+
+
+
+}
 
 </script>
 
