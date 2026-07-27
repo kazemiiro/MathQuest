@@ -151,9 +151,49 @@ potion:0
 let keys={};
 
 let nearShop=false;
+let nearNpc=false;
+
+let questCount=0;
+
+let questStart=false;
 
 
 document.addEventListener("keydown",e=>{
+
+if(e.key==="e" && nearNpc){
+
+if(!questStart){
+
+questStart=true;
+
+alert(
+"🧑 村人\n\n"+
+"スライムを3体倒してくれ！"
+);
+
+}else if(questCount>=3 && !npc.complete){
+
+npc.complete=true;
+
+player.gold+=100;
+player.exp+=50;
+
+document.getElementById("gold").textContent=
+player.gold;
+
+document.getElementById("exp").textContent=
+player.exp;
+
+
+alert(
+"🎉 クエスト達成！\n\n"+
+"💰100G\n"+
+"EXP50"
+);
+
+}
+
+}
 
 keys[e.key]=true;
 
@@ -225,9 +265,12 @@ let npc={
 
 x:150,
 y:120,
-size:32
+size:32,
+quest:false,
+complete:false
 
 };
+
 
 let shop={
 
@@ -236,6 +279,18 @@ y:120,
 size:32
 
 };
+
+// 魔王城
+
+let bossCastle={
+
+x:850,
+y:520,
+size:50
+
+};
+
+let bossDefeated=false;
 
 // 敵
 
@@ -307,6 +362,16 @@ let shopDistance=Math.sqrt(
 
 
 nearShop = shopDistance < 60;
+let npcDistance=Math.sqrt(
+
+(player.x-npc.x)**2+
+(player.y-npc.y)**2
+
+);
+
+
+nearNpc = npcDistance < 60;
+
 
 draw();
 
@@ -356,7 +421,30 @@ player.x+=player.speed;
 
 fieldEnemies.forEach(e=>{
 
+// 魔王城に入る
 
+let bossDistance=Math.sqrt(
+
+(player.x-bossCastle.x)**2+
+(player.y-bossCastle.y)**2
+
+);
+
+
+if(
+bossDistance<60 &&
+!bossDefeated &&
+!battle
+){
+
+startBossBattle();
+
+}
+
+
+
+
+    
 let enemyDistance=Math.sqrt(
 
 (player.x-e.x)**2+
@@ -490,6 +578,20 @@ npc.size,
 npc.size
 );
 
+if(nearNpc){
+
+ctx.fillStyle="white";
+
+ctx.font="18px sans-serif";
+
+ctx.fillText(
+"Eキーで話す",
+npc.x-20,
+npc.y-15
+);
+
+}
+
     // 武器屋
 
 ctx.fillStyle="purple";
@@ -541,6 +643,32 @@ e.size
 }
 
 });
+
+// 魔王城
+
+if(!bossDefeated){
+
+ctx.fillStyle="black";
+
+ctx.fillRect(
+bossCastle.x,
+bossCastle.y,
+bossCastle.size,
+bossCastle.size
+);
+
+
+ctx.fillStyle="white";
+
+ctx.font="18px sans-serif";
+
+ctx.fillText(
+"👑魔王城",
+bossCastle.x-10,
+bossCastle.y-10
+);
+
+}
 
 // 主人公
 
@@ -634,6 +762,23 @@ currentFieldEnemy=field;
 
 }
 
+function startBossBattle(){
+
+battle=true;
+
+enemy={
+
+name:"👑 魔王ドラゴン",
+hp:300,
+exp:500,
+gold:500
+
+};
+
+showBattle();
+
+}
+
 
 
 let answer=0;
@@ -680,13 +825,13 @@ document.getElementById("question").textContent=
 
 function levelCheck(){
 
-
 if(player.exp >= player.level * 20){
 
+player.exp-=player.level*20;
 
 player.level++;
 
-player.exp-=player.level*20;
+
 
 document.getElementById("exp").textContent=
 player.exp;
@@ -834,6 +979,8 @@ player.gold-=30;
 
 player.defense+=5;
 
+
+
 player.hasArmor=true;
 
 
@@ -958,6 +1105,21 @@ document.getElementById("answerInput").value="";
 
 if(enemy.hp<=0){
 
+if(enemy.name==="👑 魔王ドラゴン"){
+
+bossDefeated=true;
+
+document.getElementById("battleUI").style.display="none";
+
+document.getElementById("clearUI").style.display="block";
+
+return;
+
+}
+
+
+}
+
 
 alert(
 "🎉 "+enemy.name+"を倒した！"
@@ -967,6 +1129,17 @@ alert(
 player.exp+=enemy.exp;
 
 player.gold+=enemy.gold;
+
+if(enemy.name==="スライム" && questStart && !npc.complete){
+
+questCount++;
+
+alert(
+"スライム討伐 "+questCount+"/3"
+);
+
+}
+
 
 if(Math.random()<0.3){
 
@@ -1010,6 +1183,8 @@ battle=false;
 
 enemy=null;
 
+if(currentFieldEnemy){
+
 currentFieldEnemy.alive=false;
 
 
@@ -1018,6 +1193,9 @@ setTimeout(()=>{
 currentFieldEnemy.alive=true;
 
 },enemyRespawnTime);
+
+}
+
 
 }else{
 
@@ -1064,6 +1242,30 @@ font-size:25px;
 
 <button onclick="attackEnemy()">
 攻撃！
+</button>
+
+</div>
+
+<div id="clearUI" style="
+display:none;
+position:absolute;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:#000;
+color:white;
+font-size:50px;
+text-align:center;
+padding-top:200px;
+">
+
+🎉 Math Quest クリア！ 🎉
+
+<br>
+
+<button onclick="location.reload()">
+もう一度遊ぶ
 </button>
 
 </div>
