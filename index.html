@@ -152,6 +152,7 @@ let keys={};
 
 let nearShop=false;
 let nearNpc=false;
+let nearCave=false;
 
 let questCount=0;
 
@@ -159,6 +160,16 @@ let questStart=false;
 
 
 document.addEventListener("keydown",e=>{
+
+if(e.key==="e" && nearCave && !inCave){
+
+inCave=true;
+
+alert(
+"🕳 洞窟に入った！"
+);
+
+}
 
 if(e.key==="e" && nearNpc){
 
@@ -292,6 +303,18 @@ size:50
 
 let bossDefeated=false;
 
+// 洞窟
+
+let cave={
+
+x:600,
+y:500,
+size:50
+
+};
+
+let inCave=false;
+
 // 敵
 
 let enemy = null;
@@ -372,6 +395,15 @@ let npcDistance=Math.sqrt(
 
 nearNpc = npcDistance < 60;
 
+let caveDistance=Math.sqrt(
+
+(player.x-cave.x)**2+
+(player.y-cave.y)**2
+
+);
+
+
+nearCave = caveDistance < 60;
 
 draw();
 
@@ -666,6 +698,39 @@ ctx.fillText(
 "👑魔王城",
 bossCastle.x-10,
 bossCastle.y-10
+);
+
+}
+
+// 洞窟
+
+ctx.fillStyle="gray";
+
+ctx.fillRect(
+cave.x,
+cave.y,
+cave.size,
+cave.size
+);
+
+
+ctx.fillStyle="white";
+
+ctx.font="18px sans-serif";
+
+ctx.fillText(
+"🕳洞窟",
+cave.x-5,
+cave.y-10
+);
+
+
+if(nearCave){
+
+ctx.fillText(
+"Eキーで入る",
+cave.x-20,
+cave.y+70
 );
 
 }
