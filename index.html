@@ -68,12 +68,25 @@ canvas{
 
 </div>
 
-
 <div id="info">
-HP:<span id="hp">100</span>
+
+HP:
+<span id="hp">100</span>
+/
+<span id="maxhp">100</span>
+
 　
-Lv:<span id="lv">1</span>
+
+Lv:
+<span id="lv">1</span>
+
+　
+
+EXP:
+<span id="exp">0</span>
+
 </div>
+
 
 
 <canvas id="game" width="960" height="640"></canvas>
@@ -89,15 +102,20 @@ const ctx=canvas.getContext("2d");
 
 // プレイヤー
 
-let player={
+    let player={
 
 x:100,
 y:100,
 size:32,
 speed:4,
+
 hp:100,
+maxHp:100,
+
 level:1,
-exp:0
+exp:0,
+
+attack:10
 
 };
 
@@ -429,18 +447,27 @@ alert(
 
 // 勝利
 
+
+
+
+battle=false;
+
 if(enemy.hp<=0){
 
 alert(
-"🎉 スライムを倒した！"
+"🎉 "+enemy.name+"を倒した！\n"+
+"経験値10獲得！"
 );
 
 
 player.exp+=10;
 
 
-battle=false;
+levelCheck();
 
+
+document.getElementById("exp").textContent=
+player.exp;
 
 }else{
 
@@ -449,6 +476,52 @@ setTimeout(makeQuestion,500);
 
 }
 
+
+
+}
+
+function levelCheck(){
+
+
+if(player.exp >= player.level * 20){
+
+
+player.level++;
+
+
+player.exp=0;
+
+
+player.maxHp+=20;
+
+player.hp=player.maxHp;
+
+
+player.attack+=5;
+
+
+
+document.getElementById("lv").textContent=
+player.level;
+
+
+document.getElementById("hp").textContent=
+player.hp;
+
+
+document.getElementById("maxhp").textContent=
+player.maxHp;
+
+
+
+alert(
+"🎊 レベルアップ！\n\n"+
+"Lv "+player.level+"\n"+
+"HPと攻撃力が上がった！"
+);
+
+
+}
 
 
 }
