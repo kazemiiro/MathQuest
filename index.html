@@ -95,6 +95,13 @@ EXP:
 <span id="weapon">
 木の棒
 </span>
+
+<br>
+
+🛡 防具:
+<span id="armor">
+なし
+</span>
     
 </div>
 
@@ -127,10 +134,13 @@ level:1,
 exp:0,
 
 attack:10,
+defense:0,
 gold:0,
 
 weapon:"木の棒",
+
 hasSword:false,
+hasArmor:false,
 potion:0
         
 };
@@ -150,9 +160,29 @@ keys[e.key]=true;
 
 if(e.key==="e" && nearShop){
 
-buyWeapon();
+alert(
+"🏪 武器屋\n\n"+
+"1キー：鉄の剣（20G）\n"+
+"2キー：鉄の鎧（30G）"
+);
 
 }
+
+document.addEventListener("keydown",e=>{
+
+if(nearShop){
+
+if(e.key==="1"){
+buyWeapon();
+}
+
+if(e.key==="2"){
+buyArmor();
+}
+
+}
+
+});
 
 if(e.key==="h"){
 
@@ -481,7 +511,7 @@ ctx.fillStyle="white";
 ctx.font="18px sans-serif";
 
 ctx.fillText(
-"Eキーで鉄の剣",
+"Eキーで武器屋",
 shop.x-20,
 shop.y-15
 );
@@ -760,8 +790,10 @@ if(player.gold>=20){
 
     player.hasSword=true;
 
+
     document.getElementById("weapon").textContent=
-player.weapon;
+    player.weapon;
+
 
     document.getElementById("gold").textContent=
     player.gold;
@@ -784,6 +816,49 @@ player.weapon;
 }
 
 }
+
+function buyArmor(){
+
+if(player.hasArmor){
+return;
+}
+
+
+if(player.gold>=30){
+
+player.gold-=30;
+
+player.defense+=5;
+
+document.getElementById("defense").textContent=
+player.defense;
+
+player.hasArmor=true;
+
+
+document.getElementById("gold").textContent=
+player.gold;
+
+document.getElementById("armor").textContent=
+"鉄の鎧";
+
+alert(
+"🛡 鉄の鎧を買った！\n\n"+
+"防御力 +5！"
+);
+
+
+}else{
+
+alert(
+"💰 お金が足りない！\n"+
+"鉄の鎧は30Gです"
+);
+
+}
+
+}
+
 
 function showBattle(){
 
@@ -841,7 +916,15 @@ enemy.hp-=damage;
 else{
 
 
-player.hp-=10;
+let damage=10-player.defense;
+
+
+if(damage<1){
+damage=1;
+}
+
+
+player.hp-=damage;
 
 
 document.getElementById("hp").textContent=
