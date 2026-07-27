@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Math Quest</title>
+
+<style>
+
+body{
+    margin:0;
+    background:#222;
+    color:white;
+    font-family:sans-serif;
+    overflow:hidden;
+}
+
+#title{
+    position:absolute;
+    width:100%;
+    height:100%;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+    background:#1d3557;
+}
+
+h1{
+    font-size:64px;
+    margin:0;
+}
+
+button{
+    width:250px;
+    height:60px;
+    font-size:28px;
+    margin:15px;
+    cursor:pointer;
+}
+
+canvas{
+    display:none;
+    background:#4caf50;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div id="title">
+
+<h1>⚔ Math Quest</h1>
+
+<button onclick="startGame()">
+はじめから
+</button>
+
+</div>
+
+<canvas id="game" width="960" height="640"></canvas>
+
+<script>
+
+const canvas=document.getElementById("game");
+const ctx=canvas.getContext("2d");
+
+let player={
+x:100,
+y:100,
+size:32,
+speed:4
+};
+
+let keys={};
+
+document.addEventListener("keydown",e=>{
+keys[e.key]=true;
+});
+
+document.addEventListener("keyup",e=>{
+keys[e.key]=false;
+});
+
+function startGame(){
+
+document.getElementById("title").style.display="none";
+
+canvas.style.display="block";
+
+requestAnimationFrame(loop);
+
+}
+
+function loop(){
+
+update();
+
+draw();
+
+requestAnimationFrame(loop);
+
+}
+
+function update(){
+
+if(keys["ArrowUp"]) player.y-=player.speed;
+
+if(keys["ArrowDown"]) player.y+=player.speed;
+
+if(keys["ArrowLeft"]) player.x-=player.speed;
+
+if(keys["ArrowRight"]) player.x+=player.speed;
+
+}
+
+function draw(){
+
+ctx.fillStyle="#6ab04c";
+
+ctx.fillRect(0,0,960,640);
+
+ctx.fillStyle="blue";
+
+ctx.fillRect(player.x,player.y,player.size,player.size);
+
+}
+
+</script>
+
+</body>
+</html>
