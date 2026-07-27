@@ -168,8 +168,6 @@ alert(
 
 }
 
-document.addEventListener("keydown",e=>{
-
 if(nearShop){
 
 if(e.key==="1"){
@@ -182,7 +180,6 @@ buyArmor();
 
 }
 
-});
 
 if(e.key==="h"){
 
@@ -776,51 +773,58 @@ setTimeout(()=>{
 
 
 if(player.hasSword){
-    return;
+
+alert("⚔ もう鉄の剣を持っています！");
+return;
+
 }
 
 
 if(player.gold>=20){
 
-    player.gold-=20;
+player.gold-=20;
 
-    player.attack+=10;
+player.attack+=10;
 
-    player.weapon="鉄の剣";
+player.weapon="鉄の剣";
 
-    player.hasSword=true;
-
-
-    document.getElementById("weapon").textContent=
-    player.weapon;
+player.hasSword=true;
 
 
-    document.getElementById("gold").textContent=
-    player.gold;
+document.getElementById("weapon").textContent=
+player.weapon;
 
 
-    alert(
-    "⚔ 鉄の剣を買った！\n\n"+
-    "攻撃力 +10！\n"+
-    "現在攻撃力："+player.attack
-    );
+document.getElementById("gold").textContent=
+player.gold;
+
+
+alert(
+"⚔ 鉄の剣を買った！\n\n"+
+"攻撃力 +10！"
+);
 
 
 }else{
 
-    alert(
-    "💰 お金が足りない！\n"+
-    "鉄の剣は20Gです"
-    );
+alert(
+"💰 お金が足りない！\n"+
+"鉄の剣は20Gです"
+);
 
 }
 
 }
+
+
 
 function buyArmor(){
 
 if(player.hasArmor){
+
+alert("🛡 もう鉄の鎧を持っています！");
 return;
+
 }
 
 
@@ -830,17 +834,16 @@ player.gold-=30;
 
 player.defense+=5;
 
-document.getElementById("defense").textContent=
-player.defense;
-
 player.hasArmor=true;
 
 
 document.getElementById("gold").textContent=
 player.gold;
 
+
 document.getElementById("armor").textContent=
 "鉄の鎧";
+
 
 alert(
 "🛡 鉄の鎧を買った！\n\n"+
@@ -858,6 +861,7 @@ alert(
 }
 
 }
+    
 
 
 function showBattle(){
