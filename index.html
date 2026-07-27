@@ -130,7 +130,8 @@ attack:10,
 gold:0,
 
 weapon:"木の棒",
-hasSword:false
+hasSword:false,
+potion:0
         
 };
 
@@ -150,6 +151,12 @@ keys[e.key]=true;
 if(e.key==="e" && nearShop){
 
 buyWeapon();
+
+}
+
+if(e.key==="h"){
+
+usePotion();
 
 }
 
@@ -209,6 +216,35 @@ let enemy = null;
 let battle = false;
 let battleCooldown = false;
 let shopCooldown = false;
+
+// フィールド敵
+let fieldEnemies=[
+
+{
+x:500,
+y:200,
+size:32,
+alive:true
+},
+
+{
+x:700,
+y:400,
+size:32,
+alive:true
+},
+
+{
+x:300,
+y:500,
+size:32,
+alive:true
+}
+
+];
+
+
+let enemyRespawnTime = 5000;
 
 
 
@@ -286,20 +322,27 @@ player.x+=player.speed;
 }
 
 
-// NPCに近づくと戦闘
+// 敵に近づくと戦闘
 
-let distance=Math.sqrt(
+fieldEnemies.forEach(e=>{
 
-(player.x-npc.x)**2+
-(player.y-npc.y)**2
+
+let enemyDistance=Math.sqrt(
+
+(player.x-e.x)**2+
+(player.y-e.y)**2
 
 );
 
-if(distance<60 && !battle && !battleCooldown){
 
-startBattle();
+if(enemyDistance<60 && e.alive && !battle && !battleCooldown){
+
+startBattle(e);
 
 }
+
+
+});
 
 
 
@@ -442,6 +485,24 @@ shop.y-15
 
 }
 
+// フィールド敵
+
+fieldEnemies.forEach(e=>{
+
+if(e.alive){
+
+ctx.fillStyle="red";
+
+ctx.fillRect(
+e.x,
+e.y,
+e.size,
+e.size
+);
+
+}
+
+});
 
 // 主人公
 
@@ -464,8 +525,11 @@ player.size
 
 
 
+let currentFieldEnemy=null;
 
-function startBattle(){
+
+function startBattle(field){
+
 
 battle=true;
 
@@ -511,6 +575,8 @@ enemy.hp += player.level * 5;
 
 
 showBattle();
+
+currentFieldEnemy=field;
 
 }
 
@@ -602,6 +668,40 @@ alert(
 
 }
 
+
+}
+
+function usePotion(){
+
+if(player.potion>0){
+
+player.potion--;
+
+player.hp+=50;
+
+
+if(player.hp>player.maxHp){
+player.hp=player.maxHp;
+}
+
+
+document.getElementById("hp").textContent=
+player.hp;
+
+
+alert(
+"🧪 ポーションを使った！\n"+
+"HPが50回復した！"
+);
+
+
+}else{
+
+alert(
+"🧪 ポーションを持っていない！"
+);
+
+}
 
 }
 
@@ -709,6 +809,16 @@ alert(
 
 }
 
+if(player.hp<=0){
+
+alert(
+"💀 ゲームオーバー！"
+);
+
+location.reload();
+
+}
+
 
 document.getElementById("answerInput").value="";
 
@@ -724,6 +834,16 @@ alert(
 player.exp+=enemy.exp;
 
 player.gold+=enemy.gold;
+
+if(Math.random()<0.3){
+
+player.potion++;
+
+alert(
+"🧪 ポーションを手に入れた！"
+);
+
+}
 
 
 document.getElementById("exp").textContent=
@@ -756,6 +876,15 @@ battleCooldown=false;
 battle=false;
 
 enemy=null;
+
+currentFieldEnemy.alive=false;
+
+
+setTimeout(()=>{
+
+currentFieldEnemy.alive=true;
+
+},enemyRespawnTime);
 
 }else{
 
