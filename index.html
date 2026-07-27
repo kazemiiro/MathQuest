@@ -115,8 +115,9 @@ maxHp:100,
 level:1,
 exp:0,
 
-attack:10
-
+attack:10,
+gold:0
+        
 };
 
 
@@ -377,13 +378,50 @@ function startBattle(){
 
 battle=true;
 
-enemy={
-    name:"スライム",
-    hp:30
-};
+
+let enemies=[
+
+{
+name:"スライム",
+hp:30,
+exp:10,
+gold:5
+},
+
+{
+name:"ゴブリン",
+hp:50,
+exp:20,
+gold:10
+},
+
+{
+name:"オオカミ",
+hp:70,
+exp:30,
+gold:15
+},
+
+{
+name:"ドラゴン",
+hp:120,
+exp:100,
+gold:50
+}
+
+];
 
 
-alert("⚔ スライムが現れた！");
+enemy=enemies[
+Math.floor(Math.random()*enemies.length)
+];
+
+
+alert(
+"⚔ "+enemy.name+"が現れた！\n\n"+
+"HP："+enemy.hp
+);
+
 
 makeQuestion();
 
@@ -453,11 +491,14 @@ if(enemy.hp<=0){
 
 alert(
 "🎉 "+enemy.name+"を倒した！\n"+
-"経験値10獲得！"
+"経験値"+enemy.exp+"獲得！\n"+
+"ゴールド"+enemy.gold+"枚獲得！"
 );
 
 
-player.exp+=10;
+player.exp+=enemy.exp;
+
+player.gold+=enemy.gold;
 
 
 levelCheck();
