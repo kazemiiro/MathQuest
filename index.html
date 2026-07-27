@@ -118,13 +118,44 @@ if(keys["ArrowRight"]) player.x+=player.speed;
 
 function draw(){
 
-ctx.fillStyle="#6ab04c";
+    ctx.fillStyle="#6ab04c";
+    ctx.fillRect(0,0,960,640);
 
-ctx.fillRect(0,0,960,640);
+    // 木
+    trees.forEach(tree=>{
 
-ctx.fillStyle="blue";
+        ctx.fillStyle="#8B4513";
+        ctx.fillRect(tree.x+10,tree.y+20,12,25);
 
-ctx.fillRect(player.x,player.y,player.size,player.size);
+        ctx.fillStyle="green";
+        ctx.beginPath();
+        ctx.arc(tree.x+16,tree.y+16,20,0,Math.PI*2);
+        ctx.fill();
+
+    });
+
+    // 家
+    houses.forEach(home=>{
+
+        ctx.fillStyle="#deb887";
+        ctx.fillRect(home.x,home.y,70,60);
+
+        ctx.fillStyle="red";
+        ctx.beginPath();
+        ctx.moveTo(home.x-5,home.y);
+        ctx.lineTo(home.x+35,home.y-35);
+        ctx.lineTo(home.x+75,home.y);
+        ctx.fill();
+
+    });
+
+    // NPC
+    ctx.fillStyle="orange";
+    ctx.fillRect(npc.x,npc.y,npc.size,npc.size);
+
+    // 主人公
+    ctx.fillStyle="blue";
+    ctx.fillRect(player.x,player.y,player.size,player.size);
 
 }
 
