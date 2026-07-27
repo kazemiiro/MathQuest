@@ -122,7 +122,8 @@ exp:0,
 attack:10,
 gold:0,
 
-weapon:"木の棒"
+weapon:"木の棒",
+hasSword:false
         
 };
 
@@ -188,6 +189,7 @@ size:32
 
 let enemy = null;
 let battle = false;
+let shopCooldown = false;
 
 
 
@@ -263,13 +265,16 @@ let shopDistance=Math.sqrt(
 );
 
 
-if(shopDistance<60){
+if(shopDistance<60 && !shopCooldown){
 
 buyWeapon();
 
 }
 
 }
+
+
+
 
 
 
@@ -536,46 +541,7 @@ player.gold+=enemy.gold;
 document.getElementById("gold").textContent=
 player.gold;
 
-levelCheck();
 
-function buyWeapon(){
-
-
-if(player.gold>=20){
-
-
-player.gold-=20;
-
-
-player.attack+=10;
-
-
-player.weapon="鉄の剣";
-
-
-document.getElementById("gold").textContent=
-player.gold;
-
-
-alert(
-"⚔ 鉄の剣を買った！\n"+
-"攻撃力+10！"
-);
-
-
-}else{
-
-
-alert(
-"💰 お金が足りない！\n"+
-"鉄の剣は20Gです"
-);
-
-
-}
-
-
-}
 
 
 document.getElementById("exp").textContent=
@@ -639,8 +605,56 @@ alert(
 
 }
 
-</script>
+function buyWeapon(){
 
+
+if(player.hasSword){
+
+return;
+
+}
+
+
+if(player.gold>=20){
+
+
+player.gold-=20;
+
+
+player.attack+=10;
+
+
+player.weapon="鉄の剣";
+
+player.hasSword=true;
+
+
+document.getElementById("gold").textContent=
+player.gold;
+
+
+alert(
+"⚔ 鉄の剣を買った！\n\n"+
+"攻撃力 +10！\n"+
+"現在攻撃力："+player.attack
+);
+
+
+}else{
+
+
+alert(
+"💰 お金が足りない！\n"+
+"鉄の剣は20Gです"
+);
+
+
+}
+
+
+}
+
+  </script>
 
 </body>
 </html>
