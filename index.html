@@ -84,7 +84,11 @@ Lv:
 
 EXP:
 <span id="exp">0</span>
+　
 
+💰:
+<span id="gold">0</span>
+    
 </div>
 
 
@@ -458,10 +462,9 @@ enemy.hp-=10;
 
 alert(
 "正解！\n"+
-"スライムに10ダメージ！\n"+
+enemy.name+"に10ダメージ！\n"+
 "敵HP："+enemy.hp
 );
-
 
 }else{
 
@@ -499,7 +502,8 @@ alert(
 player.exp+=enemy.exp;
 
 player.gold+=enemy.gold;
-
+document.getElementById("gold").textContent=
+player.gold;
 
 levelCheck();
 
