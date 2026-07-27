@@ -155,7 +155,8 @@ size:32
 
 // 敵
 
-let enemy=null;
+let enemy = null;
+let battle = false;
 
 
 
@@ -217,7 +218,7 @@ let distance=Math.sqrt(
 );
 
 
-if(distance<50 && enemy==null){
+if(distance<60 && !battle){
 
 startBattle();
 
@@ -352,7 +353,6 @@ player.size
 // =====================
 
 
-let battle=false;
 
 let enemy={
     name:"",
