@@ -277,6 +277,12 @@ usePotion();
 
 }
 
+if(e.key==="Enter" && battle){
+
+attackEnemy();
+
+}
+
 });
 
 
@@ -761,22 +767,65 @@ fieldEnemies.forEach(e=>{
 
 if(e.alive){
 
-// スライム
-if(e.type==="スライム"){
+// スライム画像風
 
-ctx.fillStyle="skyblue";
+ctx.fillStyle="#4ddcff";
 
 ctx.beginPath();
 
 ctx.arc(
 e.x+16,
-e.y+16,
-16,
+e.y+18,
+18,
 0,
 Math.PI*2
 );
 
 ctx.fill();
+
+
+// 目
+
+ctx.fillStyle="black";
+
+ctx.beginPath();
+ctx.arc(
+e.x+10,
+e.y+14,
+3,
+0,
+Math.PI*2
+);
+ctx.fill();
+
+
+ctx.beginPath();
+ctx.arc(
+e.x+22,
+e.y+14,
+3,
+0,
+Math.PI*2
+);
+ctx.fill();
+
+
+// 口
+
+ctx.strokeStyle="black";
+ctx.lineWidth=2;
+
+ctx.beginPath();
+
+ctx.arc(
+e.x+16,
+e.y+20,
+7,
+0,
+Math.PI
+);
+
+ctx.stroke();
 
 ctx.fillStyle="black";
 
@@ -910,17 +959,82 @@ Math.PI*2
 
 ctx.fill();
 
+// 体（服）
 
-// 体
-
-ctx.fillStyle="blue";
+ctx.fillStyle="#3366ff";
 
 ctx.fillRect(
-player.x+8,
+player.x+6,
 player.y+18,
-16,
-14
+20,
+18
 );
+
+
+// 髪
+
+ctx.fillStyle="#663300";
+
+ctx.beginPath();
+
+ctx.arc(
+player.x+16,
+player.y+8,
+11,
+0,
+Math.PI*2
+);
+
+ctx.fill();
+
+
+// 顔
+
+ctx.fillStyle="#ffe0bd";
+
+ctx.beginPath();
+
+ctx.arc(
+player.x+16,
+player.y+12,
+8,
+0,
+Math.PI*2
+);
+
+ctx.fill();
+
+
+// 目
+
+ctx.fillStyle="black";
+
+ctx.fillRect(
+player.x+12,
+player.y+10,
+2,
+2
+);
+
+ctx.fillRect(
+player.x+19,
+player.y+10,
+2,
+2
+);
+
+
+// 剣
+
+ctx.fillStyle="silver";
+
+ctx.fillRect(
+player.x+27,
+player.y+14,
+5,
+25
+);
+
 
 
 // 剣
@@ -1391,7 +1505,6 @@ alert(
 }
     
 
-
 function showBattle(){
 
     document.getElementById("battleUI").style.display="block";
@@ -1399,9 +1512,17 @@ function showBattle(){
     document.getElementById("enemyName").textContent=
     "⚔ "+enemy.name;
 
-　　updateEnemyHP();
+    updateEnemyHP();
 
     makeQuestion();
+
+
+    // 回答欄へ自動移動
+    setTimeout(()=>{
+
+        document.getElementById("answerInput").focus();
+
+    },100);
 
 }
 
