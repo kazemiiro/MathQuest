@@ -139,6 +139,20 @@ EXP:
 const canvas=document.getElementById("game");
 const ctx=canvas.getContext("2d");
 
+// 草模様データ
+
+let grass=[];
+
+for(let i=0;i<200;i++){
+
+grass.push({
+
+x:Math.random()*960,
+y:Math.random()*640
+
+});
+
+}
 
 // プレイヤー
 
@@ -592,25 +606,25 @@ r.height
 
 });
 
-
 // 草の模様
 
 if(!inCave){
 
-for(let i=0;i<200;i++){
+grass.forEach(g=>{
 
 ctx.fillStyle="rgba(255,255,255,0.08)";
 
 ctx.fillRect(
-Math.random()*canvas.width,
-Math.random()*canvas.height,
+g.x,
+g.y,
 2,
 2
 );
 
-}
+});
 
 }
+
 
 
 
