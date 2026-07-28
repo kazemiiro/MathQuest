@@ -277,11 +277,32 @@ keys[e.key]=false;
 
 const trees=[
 
-{x:150,y:100},
-{x:300,y:200},
-{x:600,y:120},
+{x:80,y:350},
+{x:200,y:250},
+{x:600,y:80},
 {x:800,y:300},
-{x:200,y:500}
+{x:200,y:520},
+{x:750,y:150}
+
+];
+
+// 道
+
+const roads=[
+
+{
+x:0,
+y:150,
+width:960,
+height:80
+},
+
+{
+x:400,
+y:150,
+width:80,
+height:490
+}
 
 ];
 
@@ -290,7 +311,9 @@ const trees=[
 
 const houses=[
 
-{x:400,y:300}
+{x:300,y:80},
+{x:500,y:220},
+{x:650,y:350}
 
 ];
 
@@ -553,6 +576,21 @@ ctx.fillRect(
 canvas.width,
 canvas.height
 );
+
+// 道
+
+roads.forEach(r=>{
+
+ctx.fillStyle="#c2a36b";
+
+ctx.fillRect(
+r.x,
+r.y,
+r.width,
+r.height
+);
+
+});
 
 
 // 草の模様
@@ -1191,8 +1229,7 @@ player.hp=player.maxHp;
 }
 
 
-document.getElementById("hp").textContent=
-player.hp;
+updateHP();
 
 
 alert(
