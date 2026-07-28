@@ -50,6 +50,11 @@ canvas{
     left:10px;
     font-size:20px;
     display:none;
+
+    background:rgba(0,0,0,0.5);
+    padding:15px;
+    border-radius:10px;
+    border:2px solid white;
 }
 
 </style>
@@ -75,6 +80,22 @@ HP:
 <span id="hp">100</span>
 /
 <span id="maxhp">100</span>
+
+<div style="
+width:200px;
+height:15px;
+background:#555;
+border:2px solid white;
+">
+
+<div id="hpBar" style="
+width:100%;
+height:100%;
+background:red;
+">
+</div>
+
+</div>
 
 　
 
@@ -522,7 +543,7 @@ ctx.fillStyle="#333";
 
 }else{
 
-ctx.fillStyle="#6ab04c";
+ctx.fillStyle="#4caf50";
 
 }
 
@@ -532,6 +553,26 @@ ctx.fillRect(
 canvas.width,
 canvas.height
 );
+
+
+// 草の模様
+
+if(!inCave){
+
+for(let i=0;i<200;i++){
+
+ctx.fillStyle="rgba(255,255,255,0.08)";
+
+ctx.fillRect(
+Math.random()*canvas.width,
+Math.random()*canvas.height,
+2,
+2
+);
+
+}
+
+}
 
 
 
@@ -801,13 +842,44 @@ cave.y+70
 
 // 主人公
 
+// 頭
+
+ctx.fillStyle="#ffe0bd";
+
+ctx.beginPath();
+
+ctx.arc(
+player.x+16,
+player.y+10,
+10,
+0,
+Math.PI*2
+);
+
+ctx.fill();
+
+
+// 体
+
 ctx.fillStyle="blue";
 
 ctx.fillRect(
-player.x,
-player.y,
-player.size,
-player.size
+player.x+8,
+player.y+18,
+16,
+14
+);
+
+
+// 剣
+
+ctx.fillStyle="silver";
+
+ctx.fillRect(
+player.x+25,
+player.y+15,
+5,
+20
 );
 
 
@@ -895,6 +967,7 @@ alert(
 
 enemy.hp += player.level * 5;
 
+enemy.maxHp = enemy.hp;
 
 showBattle();
 
@@ -907,12 +980,11 @@ function startBossBattle(){
 battle=true;
 
 enemy={
-
 name:"👑 魔王ドラゴン",
 hp:300,
+maxHp:300,
 exp:500,
 gold:500
-
 };
 
 showBattle();
@@ -1084,8 +1156,7 @@ player.exp;
 document.getElementById("lv").textContent=
 player.level;
 
-document.getElementById("hp").textContent=
-player.hp;
+updateHP();
 
 document.getElementById("maxhp").textContent=
 player.maxHp;
@@ -1254,8 +1325,7 @@ function showBattle(){
     document.getElementById("enemyName").textContent=
     "⚔ "+enemy.name;
 
-    document.getElementById("enemyHp").textContent=
-    "HP："+enemy.hp;
+　　updateEnemyHP();
 
     makeQuestion();
 
@@ -1296,7 +1366,7 @@ damage+"ダメージ！"
 
 
 enemy.hp-=damage;
-
+updateEnemyHP();
 
 }
 
@@ -1310,12 +1380,10 @@ if(damage<1){
 damage=1;
 }
 
-
 player.hp-=damage;
 
+updateHP();
 
-document.getElementById("hp").textContent=
-player.hp;
 
 
 alert(
@@ -1480,6 +1548,23 @@ font-size:25px;
 <div id="enemyName"></div>
 
 <div id="enemyHp"></div>
+
+<div style="
+width:300px;
+height:20px;
+background:#555;
+border:2px solid white;
+margin:auto;
+">
+
+<div id="enemyHpBar" style="
+width:100%;
+height:100%;
+background:lime;
+">
+</div>
+
+</div>
 
 <div id="question"></div>
 
