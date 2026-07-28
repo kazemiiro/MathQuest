@@ -57,6 +57,52 @@ canvas{
     border:2px solid white;
 }
 
+#mobileControls{
+
+display:none;
+
+position:absolute;
+
+bottom:20px;
+
+left:20px;
+
+z-index:20;
+
+}
+
+
+#mobileControls button{
+
+width:70px;
+
+height:70px;
+
+font-size:35px;
+
+margin:5px;
+
+opacity:0.8;
+
+}
+
+#mobileControls{
+display:none;
+position:absolute;
+bottom:20px;
+left:20px;
+z-index:20;
+}
+
+
+#mobileControls button{
+
+width:70px;
+height:70px;
+font-size:35px;
+
+}
+
 </style>
 
 </head>
@@ -131,7 +177,49 @@ EXP:
 
 <canvas id="game" width="960" height="640"></canvas>
 
+<div id="mobileControls">
 
+<button 
+ontouchstart="moveStart('up')"
+ontouchend="moveEnd('up')">
+⬆
+</button>
+
+<br>
+
+<button 
+ontouchstart="moveStart('left')"
+ontouchend="moveEnd('left')">
+⬅
+</button>
+
+<button 
+ontouchstart="moveStart('down')"
+ontouchend="moveEnd('down')">
+⬇
+</button>
+
+<button 
+ontouchstart="moveStart('right')"
+ontouchend="moveEnd('right')">
+➡
+</button>
+
+</div>
+    
+<div id="mobileControls">
+
+<button ontouchstart="move('up')">⬆</button>
+
+<br>
+
+<button ontouchstart="move('left')">⬅</button>
+
+<button ontouchstart="move('down')">⬇</button>
+
+<button ontouchstart="move('right')">➡</button>
+
+</div>
 
 <script>
 
@@ -181,14 +269,33 @@ potion:0
         
 };
 
-
 // キー
 
 let keys={};
 
+
+// スマホ移動ボタン
+
+let touchKeys={};
+
+
+function moveStart(dir){
+
+touchKeys[dir]=true;
+
+}
+
+
+function moveEnd(dir){
+
+touchKeys[dir]=false;
+
+}
+
 let nearShop=false;
 let nearNpc=false;
 let nearCave=false;
+
 
 let questCount=0;
 
@@ -435,6 +542,10 @@ canvas.style.display="block";
 
 document.getElementById("info").style.display="block";
 
+
+document.getElementById("mobileControls").style.display="block";
+
+
 requestAnimationFrame(loop);
 
 }
@@ -501,19 +612,21 @@ function update(){
 
 if(!battle){
 
-if(keys["ArrowUp"])
+// スマホ操作
+
+if(touchKeys["up"])
 player.y-=player.speed;
 
 
-if(keys["ArrowDown"])
+if(touchKeys["down"])
 player.y+=player.speed;
 
 
-if(keys["ArrowLeft"])
+if(touchKeys["left"])
 player.x-=player.speed;
 
 
-if(keys["ArrowRight"])
+if(touchKeys["right"])
 player.x+=player.speed;
 
 }
@@ -581,16 +694,24 @@ startBattle(e);
 
 function draw(){
 
-
 if(inCave){
 
-ctx.fillStyle="#333";
+ctx.fillStyle="#222";
+
+}else if(player.x < 350){
+
+ctx.fillStyle="#7ec850"; // 草原
+
+}else if(player.x < 700){
+
+ctx.fillStyle="#4f9d45"; // 森
 
 }else{
 
-ctx.fillStyle="#4caf50";
+ctx.fillStyle="#8b7355"; // 城周辺
 
 }
+
 
 ctx.fillRect(
 0,
@@ -598,6 +719,7 @@ ctx.fillRect(
 canvas.width,
 canvas.height
 );
+
 
 // 道
 
@@ -1155,44 +1277,41 @@ document.getElementById("enemyHp").textContent =
 function makeQuestion(){
 
 let type;
-let a,b;
-
-console.log("問題作成開始");
-
-
 
 
 if(player.level <= 3){
 
+// 中1 正負の数
+
 type=Math.floor(Math.random()*3);
+
 
 if(type===0){
 
-let a=Math.floor(Math.random()*30)+1;
-let b=Math.floor(Math.random()*30)+1;
+let a=Math.floor(Math.random()*20)-10;
+let b=Math.floor(Math.random()*20)-10;
 
 answer=a+b;
 
 explanation=
-a+"+"+b+"="+answer;
-
+a+" + "+b+" = "+answer;
 
 document.getElementById("question").textContent=
-"🧮 "+a+" + "+b+" = ?";
+"🧮 "+a+" + ("+b+") = ?";
 
 
 }
 
+
 else if(type===1){
 
-let a=Math.floor(Math.random()*20)+10;
-let b=Math.floor(Math.random()*10)+1;
+let a=Math.floor(Math.random()*30);
+let b=Math.floor(Math.random()*20);
 
 answer=a-b;
 
 explanation=
-a+"-"+b+"="+answer;
-
+a+" - "+b+" = "+answer;
 
 document.getElementById("question").textContent=
 "🧮 "+a+" - "+b+" = ?";
@@ -1200,61 +1319,103 @@ document.getElementById("question").textContent=
 
 }
 
+
 else{
 
 
 let a=Math.floor(Math.random()*9)+2;
 let b=Math.floor(Math.random()*9)+2;
 
-
 answer=a*b;
 
 explanation=
-a+"×"+b+"="+answer;
-
+a+" × "+b+" = "+answer;
 
 document.getElementById("question").textContent=
 "🧮 "+a+" × "+b+" = ?";
 
 }
 
+
 }
 
 
-else if(player.level <= 7){
 
-// 一次方程式
+else if(player.level <= 6){
 
-let x=Math.floor(Math.random()*10)+1;
+// 中1〜中2 一次方程式
+
+
+let x=Math.floor(Math.random()*20)+1;
+
 let a=Math.floor(Math.random()*10)+1;
+
 
 answer=x;
 
 
+explanation=
+"x="+x;
+
+
 document.getElementById("question").textContent=
-"🧮 x + "+a+" = "+(x+a)+"\n x = ?";
+"🧮 x + "+a+" = "+(x+a)+"\n xを求めよ";
+
+
 
 }
 
 
-else if(player.level <= 12){
+
+else if(player.level <=10){
+
+// 中2 連立方程式風
 
 
-// 平方根
+let x=Math.floor(Math.random()*10)+1;
 
-let n=[
+let y=Math.floor(Math.random()*10)+1;
+
+
+answer=x;
+
+
+explanation=
+"x="+x;
+
+
+document.getElementById("question").textContent=
+"🧮 x + "+y+" = "+(x+y)+"\n"+
+"xを求めよ";
+
+
+}
+
+
+
+else if(player.level <=15){
+
+// 中3 平方根
+
+
+let nums=[
 [2,4],
 [3,9],
-[4,16],
 [5,25],
-[6,36]
+[6,36],
+[7,49]
 ];
 
 
-let r=n[Math.floor(Math.random()*n.length)];
+let r=
+nums[Math.floor(Math.random()*nums.length)];
 
 
 answer=r[0];
+
+
+explanation=
+"√"+r[1]+"="+r[0];
 
 
 document.getElementById("question").textContent=
@@ -1266,25 +1427,29 @@ document.getElementById("question").textContent=
 
 else{
 
-// 中3ボス級
+// 高難度ボス問題
+
+
+let a=Math.floor(Math.random()*5)+2;
 
 let x=Math.floor(Math.random()*10)+1;
-let a=Math.floor(Math.random()*5)+1;
 
 
 answer=x;
 
 
+explanation=
+"x="+x;
+
+
 document.getElementById("question").textContent=
-"👑 "+a+"x = "+(a*x)+"\n x = ?";
-
-
-
-}
+"👑 "+a+"x = "+(a*x)+"\nxを求めよ";
 
 
 }
 
+
+}
 
 
 function levelCheck(){
@@ -1707,6 +1872,12 @@ if(currentFieldEnemy){
 
 
 currentFieldEnemy=null;
+
+}
+
+if("ontouchstart" in window){
+
+document.getElementById("mobileControls").style.display="block";
 
 }
 
