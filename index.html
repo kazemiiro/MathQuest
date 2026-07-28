@@ -86,13 +86,7 @@ opacity:0.8;
 
 }
 
-#mobileControls{
-display:none;
-position:absolute;
-bottom:20px;
-left:20px;
-z-index:20;
-}
+
 
 
 #mobileControls button{
@@ -207,19 +201,7 @@ ontouchend="moveEnd('right')">
 
 </div>
     
-<div id="mobileControls">
 
-<button ontouchstart="move('up')">⬆</button>
-
-<br>
-
-<button ontouchstart="move('left')">⬅</button>
-
-<button ontouchstart="move('down')">⬇</button>
-
-<button ontouchstart="move('right')">➡</button>
-
-</div>
 
 <script>
 
@@ -612,19 +594,31 @@ function update(){
 
 if(!battle){
 
+// PC操作
+
+if(keys["ArrowUp"])
+player.y-=player.speed;
+
+if(keys["ArrowDown"])
+player.y+=player.speed;
+
+if(keys["ArrowLeft"])
+player.x-=player.speed;
+
+if(keys["ArrowRight"])
+player.x+=player.speed;
+
+
 // スマホ操作
 
 if(touchKeys["up"])
 player.y-=player.speed;
 
-
 if(touchKeys["down"])
 player.y+=player.speed;
 
-
 if(touchKeys["left"])
 player.x-=player.speed;
-
 
 if(touchKeys["right"])
 player.x+=player.speed;
@@ -1875,11 +1869,7 @@ currentFieldEnemy=null;
 
 }
 
-if("ontouchstart" in window){
 
-document.getElementById("mobileControls").style.display="block";
-
-}
 
 
 
