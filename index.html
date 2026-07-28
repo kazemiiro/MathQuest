@@ -97,6 +97,70 @@ font-size:35px;
 
 }
 
+canvas{
+
+max-width:100vw;
+max-height:70vh;
+
+}
+
+
+#battleUI{
+
+max-width:90vw;
+
+}
+
+
+#battleUI input{
+
+font-size:25px;
+width:120px;
+height:50px;
+
+}
+
+
+@media(max-width:600px){
+
+h1{
+
+font-size:40px;
+
+}
+
+
+button{
+
+width:180px;
+height:50px;
+font-size:20px;
+
+}
+
+
+#info{
+
+font-size:14px;
+
+}
+
+
+#battleUI{
+
+font-size:18px;
+
+}
+
+
+#question{
+
+font-size:25px!important;
+
+}
+
+}
+
 </style>
 
 </head>
@@ -223,6 +287,16 @@ y:Math.random()*640
 });
 
 }
+
+// マップの広さ
+
+let world = {
+
+width:3000,
+
+height:2000
+
+};
 
 // プレイヤー
 
@@ -578,11 +652,12 @@ player.x=0;
 if(player.y<0)
 player.y=0;
 
-if(player.x>canvas.width-player.size)
-player.x=canvas.width-player.size;
+if(player.x>world.width-player.size)
+player.x=world.width-player.size;
 
-if(player.y>canvas.height-player.size)
-player.y=canvas.height-player.size;
+
+if(player.y>world.height-player.size)
+player.y=world.height-player.size;
 
 }
 
@@ -710,8 +785,8 @@ ctx.fillStyle="#8b7355"; // 城周辺
 ctx.fillRect(
 0,
 0,
-canvas.width,
-canvas.height
+world.width,
+world.height
 );
 
 
