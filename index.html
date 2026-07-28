@@ -1441,31 +1441,17 @@ enemy=null;
 
 if(currentFieldEnemy){
 
-currentFieldEnemy.alive=false;
+    let defeatedEnemy=currentFieldEnemy;
 
+    defeatedEnemy.alive=false;
 
-setTimeout(()=>{
+    setTimeout(()=>{
 
-currentFieldEnemy.x=
-Math.random()*900;
+        defeatedEnemy.x=Math.random()*900;
+        defeatedEnemy.y=Math.random()*600;
+        defeatedEnemy.alive=true;
 
-currentFieldEnemy.y=
-Math.random()*600;
-
-currentFieldEnemy.alive=true;
-
-
-},enemyRespawnTime);
-
-}
-
-
-else{
-
-document.getElementById("enemyHp").textContent=
-"HP："+enemy.hp;
-
-makeQuestion();
+    },enemyRespawnTime);
 
 }
 
