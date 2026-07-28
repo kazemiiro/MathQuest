@@ -1499,7 +1499,8 @@ function showBattle(){
 
 function attackEnemy(){
 
-
+let defeatedName = enemy.name;
+    
 let input=
 document.getElementById("answerInput").value;
 
@@ -1576,6 +1577,8 @@ document.getElementById("answerInput").value="";
 
 if(enemy.hp<=0){
 
+battle=false;
+
 if(enemy.name==="👑 魔王ドラゴン"){
 
 bossDefeated=true;
@@ -1611,7 +1614,7 @@ return;
 
 
 alert(
-"🎉 "+enemy.name+"を倒した！"
+"🎉 "+defeatedName+"を倒した！"
 );
 
 
@@ -1671,6 +1674,7 @@ battleCooldown=false;
 battle=false;
 enemy=null;
 
+
 if(currentFieldEnemy){
 
     let defeatedEnemy=currentFieldEnemy;
@@ -1686,6 +1690,9 @@ if(currentFieldEnemy){
     },enemyRespawnTime);
 
 }
+
+
+currentFieldEnemy=null;
 
 }
 
