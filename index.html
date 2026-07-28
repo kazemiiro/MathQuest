@@ -273,6 +273,17 @@ ontouchend="moveEnd('right')">
 const canvas=document.getElementById("game");
 const ctx=canvas.getContext("2d");
 
+// ワールドサイズ
+const mapWidth = 2000;
+const mapHeight = 2000;
+
+
+// カメラ
+let camera={
+x:0,
+y:0
+};
+
 // 草模様データ
 
 let grass=[];
@@ -760,10 +771,15 @@ startBattle(e);
 
 
 
-
 function draw(){
 
+// カメラ更新
+camera.x = player.x - canvas.width / 2;
+camera.y = player.y - canvas.height / 2;
+
+
 if(inCave){
+
 
 ctx.fillStyle="#222";
 
@@ -1857,9 +1873,10 @@ return;
 }
     
 
-
 }
 
+
+if(enemy.hp<=0){
 
 alert(
 "🎉 "+defeatedName+"を倒した！"
@@ -1867,6 +1884,14 @@ alert(
 
 
 player.exp+=enemy.exp;
+player.gold+=enemy.gold;
+
+}else{
+
+return;
+
+}
+
 
 player.gold+=enemy.gold;
 
@@ -1929,13 +1954,7 @@ if(currentFieldEnemy){
 
     defeatedEnemy.alive=false;
 
-    setTimeout(()=>{
-
-        defeatedEnemy.x=Math.random()*900;
-        defeatedEnemy.y=Math.random()*600;
-        defeatedEnemy.alive=true;
-
-    },enemyRespawnTime);
+   
 
 }
 
