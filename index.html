@@ -1048,6 +1048,26 @@ showBattle();
 let answer=0;
 let explanation="";
 
+function updateEnemyHP(){
+
+let percent =
+(enemy.hp / enemy.maxHp) * 100;
+
+
+if(percent < 0){
+percent = 0;
+}
+
+
+document.getElementById("enemyHpBar").style.width =
+percent+"%";
+
+
+document.getElementById("enemyHp").textContent =
+"HP："+enemy.hp;
+
+}
+
 
 function makeQuestion(){
 
