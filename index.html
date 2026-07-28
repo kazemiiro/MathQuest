@@ -279,6 +279,8 @@ usePotion();
 
 if(e.key==="Enter" && battle){
 
+e.preventDefault();
+
 attackEnemy();
 
 }
@@ -761,13 +763,16 @@ shop.y-15
 }
 
 // フィールド敵
-// フィールド敵
-
 fieldEnemies.forEach(e=>{
 
-if(e.alive){
+if(!e.alive){
+    return;
+}
 
-// スライム画像風
+
+// スライム
+
+if(e.type==="スライム"){
 
 ctx.fillStyle="#4ddcff";
 
@@ -784,11 +789,10 @@ Math.PI*2
 ctx.fill();
 
 
-// 目
-
 ctx.fillStyle="black";
 
 ctx.beginPath();
+
 ctx.arc(
 e.x+10,
 e.y+14,
@@ -796,10 +800,12 @@ e.y+14,
 0,
 Math.PI*2
 );
+
 ctx.fill();
 
 
 ctx.beginPath();
+
 ctx.arc(
 e.x+22,
 e.y+14,
@@ -807,41 +813,8 @@ e.y+14,
 0,
 Math.PI*2
 );
+
 ctx.fill();
-
-
-// 口
-
-ctx.strokeStyle="black";
-ctx.lineWidth=2;
-
-ctx.beginPath();
-
-ctx.arc(
-e.x+16,
-e.y+20,
-7,
-0,
-Math.PI
-);
-
-ctx.stroke();
-
-ctx.fillStyle="black";
-
-ctx.fillRect(
-e.x+8,
-e.y+10,
-4,
-4
-);
-
-ctx.fillRect(
-e.x+20,
-e.y+10,
-4,
-4
-);
 
 }
 
@@ -877,10 +850,7 @@ e.y,
 
 }
 
-}
-
 });
-
 
 // 魔王城
 
@@ -1700,7 +1670,6 @@ battleCooldown=false;
 
 battle=false;
 enemy=null;
-currentFieldEnemy=null;
 
 if(currentFieldEnemy){
 
