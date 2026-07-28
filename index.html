@@ -1499,6 +1499,14 @@ function showBattle(){
 
 function attackEnemy(){
 
+if(!battle || !enemy){
+    return;
+}
+
+if(enemy.hp<=0){
+    return;
+}
+
 let defeatedName = enemy.name;
     
 let input=
@@ -1533,6 +1541,12 @@ damage+"ダメージ！"
 
 enemy.hp-=damage;
 updateEnemyHP();
+
+if(enemy.hp>0){
+
+    makeQuestion();
+
+}
 
 }
 
