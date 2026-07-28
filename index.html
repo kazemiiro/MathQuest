@@ -1068,11 +1068,14 @@ document.getElementById("enemyHp").textContent =
 
 }
 
-
 function makeQuestion(){
 
 let type;
 let a,b;
+
+console.log("問題作成開始");
+
+
 
 
 if(player.level <= 3){
@@ -1575,8 +1578,8 @@ battleCooldown=false;
 },1000);
 
 battle=false;
-
 enemy=null;
+currentFieldEnemy=null;
 
 if(currentFieldEnemy){
 
@@ -1637,7 +1640,12 @@ background:lime;
 
 </div>
 
-<div id="question"></div>
+<div id="question" style="
+margin:20px;
+font-size:35px;
+color:#ffff00;
+min-height:50px;
+"></div>
 
 <input id="answerInput" type="number">
 
