@@ -662,31 +662,83 @@ shop.y-15
 }
 
 // フィールド敵
+// フィールド敵
 
 fieldEnemies.forEach(e=>{
 
 if(e.alive){
 
-if(e.type==="レアドラゴン"){
+// スライム
+if(e.type==="スライム"){
 
-ctx.fillStyle="gold";
+ctx.fillStyle="skyblue";
 
-}else{
+ctx.beginPath();
 
-ctx.fillStyle="red";
+ctx.arc(
+e.x+16,
+e.y+16,
+16,
+0,
+Math.PI*2
+);
 
-}
+ctx.fill();
+
+ctx.fillStyle="black";
 
 ctx.fillRect(
-e.x,
-e.y,
-e.size,
-e.size
+e.x+8,
+e.y+10,
+4,
+4
+);
+
+ctx.fillRect(
+e.x+20,
+e.y+10,
+4,
+4
 );
 
 }
 
+
+// ゴブリン
+
+else if(e.type==="ゴブリン"){
+
+ctx.fillStyle="green";
+
+ctx.fillRect(
+e.x,
+e.y,
+32,
+32
+);
+
+}
+
+
+// オオカミ
+
+else{
+
+ctx.fillStyle="gray";
+
+ctx.fillRect(
+e.x,
+e.y,
+32,
+32
+);
+
+}
+
+}
+
 });
+
 
 // 魔王城
 
