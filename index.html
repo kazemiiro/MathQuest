@@ -10,12 +10,23 @@
 
 body{
     margin:0;
-    background:#222;
+    background:#000;
     color:white;
     font-family:sans-serif;
     overflow:hidden;
+    touch-action:none;
 }
 
+
+canvas{
+    display:none;
+    width:100vw;
+    height:100vh;
+    max-width:none;
+    max-height:none;
+}
+
+    
 #title{
     position:absolute;
     width:100%;
@@ -235,35 +246,7 @@ EXP:
 
 <canvas id="game" width="960" height="640"></canvas>
 
-<div id="mobileControls">
 
-<button 
-ontouchstart="moveStart('up')"
-ontouchend="moveEnd('up')">
-⬆
-</button>
-
-<br>
-
-<button 
-ontouchstart="moveStart('left')"
-ontouchend="moveEnd('left')">
-⬅
-</button>
-
-<button 
-ontouchstart="moveStart('down')"
-ontouchend="moveEnd('down')">
-⬇
-</button>
-
-<button 
-ontouchstart="moveStart('right')"
-ontouchend="moveEnd('right')">
-➡
-</button>
-
-</div>
     
 
 
@@ -346,6 +329,60 @@ let keys={};
 // スマホ移動ボタン
 
 let touchKeys={};
+
+let touchStartX=0;
+let touchStartY=0;
+
+
+canvas.addEventListener("touchstart",e=>{
+
+let touch=e.touches[0];
+
+touchStartX=touch.clientX;
+touchStartY=touch.clientY;
+
+});
+
+
+canvas.addEventListener("touchmove",e=>{
+
+let touch=e.touches[0];
+
+let dx=touch.clientX-touchStartX;
+let dy=touch.clientY-touchStartY;
+
+
+if(Math.abs(dx)>Math.abs(dy)){
+
+
+if(dx>20){
+player.x+=player.speed;
+}
+
+if(dx<-20){
+player.x-=player.speed;
+}
+
+}else{
+
+
+if(dy>20){
+player.y+=player.speed;
+}
+
+if(dy<-20){
+player.y-=player.speed;
+}
+
+
+}
+
+
+touchStartX=touch.clientX;
+touchStartY=touch.clientY;
+
+
+});
 
 
 function moveStart(dir){
@@ -622,8 +659,6 @@ canvas.style.display="block";
 
 document.getElementById("info").style.display="block";
 
-
-document.getElementById("mobileControls").style.display="block";
 
 
 requestAnimationFrame(loop);
