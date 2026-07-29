@@ -2050,16 +2050,14 @@ if(Math.random()<0.2){
 
 damage*=2;
 
-alert(
-"✨クリティカル！\n"+
-damage+"ダメージ！"
+showMessage(
+"✨クリティカル！ "+damage+"ダメージ！"
 );
 
 }else{
 
-alert(
-"正解！\n"+
-damage+"ダメージ！"
+showMessage(
+"⚔ 正解！ "+damage+"ダメージ！"
 );
 
 }
@@ -2091,13 +2089,12 @@ player.hp-=damage;
 updateHP();
 
 
-
-alert(
-"❌ 不正解！\n\n"+
-"正解："+answer+"\n\n"+
-explanation+
-"\n\n10ダメージ"
+showMessage(
+"❌ 不正解！ 正解："+answer+
+"<br>"+explanation+
+"<br>10ダメージ"
 );
+
 
 }
 
