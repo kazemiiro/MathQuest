@@ -544,6 +544,7 @@ size:50
 };
 
 let bossDefeated=false;
+let bossSecondPhase=false;
 
 // 洞窟
 
@@ -2038,6 +2039,27 @@ clearInterval(bossCountTimer);
 document.getElementById("bossTimerText").textContent="";
     
 bossDefeated=true;
+if(!bossSecondPhase){
+
+bossSecondPhase=true;
+
+enemy.hp=500;
+enemy.maxHp=500;
+
+alert(
+"👑 魔王ドラゴン\n\n"+
+"まだ終わらんぞ！！\n"+
+"第2形態へ進化した！"
+);
+
+updateEnemyHP();
+
+makeQuestion();
+
+return;
+
+}
+
 
 player.exp+=500;
 player.gold+=500;
