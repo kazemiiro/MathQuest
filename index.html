@@ -562,6 +562,7 @@ let inCave=false;
 let enemy = null;
 let currentFieldEnemy=null;
 let battle = false;
+let bossTimer=null;
 let battleCooldown = false;
 let shopCooldown = false;
 
@@ -1408,6 +1409,38 @@ exp:500,
 gold:500
 };
 
+
+bossTimer=setInterval(()=>{
+
+if(battle && enemy && enemy.name==="👑 魔王ドラゴン"){
+
+let damage=20;
+
+player.hp-=damage;
+
+updateHP();
+
+alert(
+"🔥 魔王の攻撃！\n"+
+damage+"ダメージ！"
+);
+
+
+if(player.hp<=0){
+
+alert(
+"💀 魔王に敗北した..."
+);
+
+location.reload();
+
+}
+
+}
+
+},5000);
+
+
 showBattle();
 
 }
@@ -1975,6 +2008,8 @@ if(enemy.hp<=0){
 battle=false;
 
 if(enemy.name==="👑 魔王ドラゴン"){
+
+clearInterval(bossTimer);
 
 bossDefeated=true;
 
