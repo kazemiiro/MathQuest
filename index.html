@@ -333,6 +333,8 @@ weapon:"木の棒",
 hasSword:false,
 hasArmor:false,
 potion:0
+
+walk:0
         
 };
 
@@ -720,6 +722,18 @@ player.x-=player.speed;
 if(touchKeys["right"])
 player.x+=player.speed;
 
+if(
+keys["ArrowUp"]||
+keys["ArrowDown"]||
+keys["ArrowLeft"]||
+keys["ArrowRight"]||
+touchKeys["up"]||
+touchKeys["down"]||
+touchKeys["left"]||
+touchKeys["right"]
+){
+    player.walk+=0.25;
+}
 }
 
 // 敵の移動
@@ -1175,6 +1189,21 @@ player.y+18,
 18
 );
 
+let arm=Math.sin(player.walk)*4;
+let leg=Math.cos(player.walk)*4;
+
+ctx.strokeStyle="#ffe0bd";
+ctx.lineWidth=3;
+
+ctx.beginPath();
+ctx.moveTo(player.x+8,player.y+22);
+ctx.lineTo(player.x+8,player.y+35+arm);
+ctx.stroke();
+
+ctx.beginPath();
+ctx.moveTo(player.x+24,player.y+22);
+ctx.lineTo(player.x+24,player.y+35-arm);
+ctx.stroke();
 
 // 髪
 
@@ -1228,7 +1257,18 @@ player.y+10,
 2
 );
 
+ctx.strokeStyle="black";
 
+ctx.beginPath();
+ctx.moveTo(player.x+12,player.y+36);
+ctx.lineTo(player.x+12,player.y+48+leg);
+ctx.stroke();
+
+ctx.beginPath();
+ctx.moveTo(player.x+20,player.y+36);
+ctx.lineTo(player.x+20,player.y+48-leg);
+ctx.stroke();
+    
 // 剣
 
 ctx.fillStyle="silver";
