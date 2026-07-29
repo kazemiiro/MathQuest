@@ -575,25 +575,36 @@ x:500,
 y:200,
 size:32,
 alive:true,
-type:"スライム"
+type:"スライム",
+
+dx:1,
+dy:1,
+speed:1.5
 },
 
 {
-x:700,
-y:400,
-size:32,
-alive:true,
-type:"ゴブリン"
+    x:700,
+    y:400,
+    size:32,
+    alive:true,
+    type:"ゴブリン",
+
+    dx:-1,
+    dy:1,
+    speed:2
 },
 
 {
-x:300,
-y:500,
-size:32,
-alive:true,
-type:"オオカミ"
+    x:300,
+    y:500,
+    size:32,
+    alive:true,
+    type:"オオカミ",
+
+    dx:1,
+    dy:-1,
+    speed:3
 }
-
 ];
 
 
@@ -711,6 +722,23 @@ player.x+=player.speed;
 
 }
 
+// 敵の移動
+fieldEnemies.forEach(e=>{
+
+    if(!e.alive) return;
+
+    e.x += e.dx * e.speed;
+    e.y += e.dy * e.speed;
+
+    if(e.x < 50 || e.x > world.width-50){
+        e.dx *= -1;
+    }
+
+    if(e.y < 50 || e.y > world.height-50){
+        e.dy *= -1;
+    }
+
+});
 
 // 敵に近づくと戦闘
 
