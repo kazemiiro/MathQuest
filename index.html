@@ -1117,13 +1117,35 @@ e.y,
 
 if(!bossDefeated){
 
-ctx.fillStyle="black";
+ctx.fillStyle="purple";
+
+ctx.beginPath();
+
+ctx.arc(
+bossCastle.x+25,
+bossCastle.y+25,
+25,
+0,
+Math.PI*2
+);
+
+ctx.fill();
+
+
+ctx.fillStyle="red";
 
 ctx.fillRect(
-bossCastle.x,
-bossCastle.y,
-bossCastle.size,
-bossCastle.size
+bossCastle.x+10,
+bossCastle.y+10,
+10,
+10
+);
+
+ctx.fillRect(
+bossCastle.x+30,
+bossCastle.y+10,
+10,
+10
 );
 
 
@@ -1405,7 +1427,7 @@ function startBossBattle(){
 battle=true;
 
 enemy={
-name:"👑 魔王ドラゴン",
+name:"👑 魔王ドラゴン 第1形態",
 hp:300,
 maxHp:300,
 exp:500,
@@ -2038,13 +2060,14 @@ clearInterval(bossCountTimer);
 
 document.getElementById("bossTimerText").textContent="";
     
-bossDefeated=true;
 if(!bossSecondPhase){
 
 bossSecondPhase=true;
 
 enemy.hp=500;
 enemy.maxHp=500;
+
+enemy.name="🔥 覚醒魔王ドラゴン";
 
 alert(
 "👑 魔王ドラゴン\n\n"+
