@@ -274,8 +274,6 @@ const canvas=document.getElementById("game");
 const ctx=canvas.getContext("2d");
 
 // ワールドサイズ
-const mapWidth = 2000;
-const mapHeight = 2000;
 
 
 // カメラ
@@ -286,18 +284,6 @@ y:0
 
 // 草模様データ
 
-let grass=[];
-
-for(let i=0;i<200;i++){
-
-grass.push({
-
-x:Math.random()*960,
-y:Math.random()*640
-
-});
-
-}
 
 // マップの広さ
 
@@ -308,6 +294,19 @@ width:3000,
 height:2000
 
 };
+
+let grass=[];
+
+for(let i=0;i<200;i++){
+
+grass.push({
+
+x:Math.random()*world.width,
+y:Math.random()*world.height
+
+});
+
+}
 
 // プレイヤー
 
@@ -816,8 +815,22 @@ startBattle(e);
 function draw(){
 
 // カメラ更新
-camera.x = player.x - canvas.width / 2;
-camera.y = player.y - canvas.height / 2;
+camera.x = player.x - canvas.width/2;
+camera.y = player.y - canvas.height/2;
+
+camera.x=Math.max(
+0,
+Math.min(camera.x,world.width-canvas.width)
+);
+
+camera.y=Math.max(
+0,
+Math.min(camera.y,world.height-canvas.height)
+);
+
+ctx.save();
+
+ctx.translate(-camera.x,-camera.y);
 
 
 if(inCave){
@@ -1293,6 +1306,8 @@ player.y+15,
 20
 );
 
+ctx.restore();
+
 
 
 }
@@ -1424,6 +1439,23 @@ percent+"%";
 
 document.getElementById("enemyHp").textContent =
 "HP："+enemy.hp;
+
+}
+
+function updateHP(){
+
+    if(player.hp<0){
+        player.hp=0;
+    }
+
+    document.getElementById("hp").textContent=
+        player.hp;
+
+    document.getElementById("maxhp").textContent=
+        player.maxHp;
+
+    document.getElementById("hpBar").style.width=
+        (player.hp/player.maxHp*100)+"%";
 
 }
 
@@ -1961,8 +1993,6 @@ return;
 }
 
 
-player.gold+=enemy.gold;
-
 if(enemy.name==="スライム" && questStart && !npc.complete){
 
 questCount++;
@@ -2020,8 +2050,13 @@ if(currentFieldEnemy){
 
     let defeatedEnemy=currentFieldEnemy;
 
-    defeatedEnemy.alive=false;
+   defeatedEnemy.alive=false;
 
+setTimeout(()=>{
+
+    defeatedEnemy.alive=true;
+
+},enemyRespawnTime);
    
 
 }
