@@ -1423,6 +1423,50 @@ showBattle();
 let answer=0;
 let explanation="";
 
+let choices=[];
+
+
+function makeChoices(){
+
+let correct=answer;
+
+
+choices=[
+correct,
+correct+1,
+correct-1,
+correct+Math.floor(Math.random()*5)+2
+];
+
+
+// シャッフル
+
+choices.sort(()=>Math.random()-0.5);
+
+
+for(let i=0;i<4;i++){
+
+document.getElementById(
+"choice"+i
+).textContent=choices[i];
+
+}
+
+}
+
+
+function selectAnswer(index){
+
+let input=choices[index];
+
+
+document.getElementById("answerInput").value=input;
+
+
+attackEnemy();
+
+}
+
 function updateEnemyHP(){
 
 let percent =
@@ -1631,6 +1675,8 @@ explanation=
 document.getElementById("question").textContent=
 "👑 "+a+"x = "+(a*x)+"\nxを求めよ";
 
+makeChoices();
+
 
 }
 
@@ -1728,9 +1774,7 @@ if(shopCooldown){
 
 shopCooldown=true;
 
-setTimeout(()=>{
-    shopCooldown=false;
-},1000);
+
 
 
 if(player.hasSword){
@@ -2117,11 +2161,19 @@ color:#ffff00;
 min-height:50px;
 "></div>
 
-<input id="answerInput" type="number">
+<div id="choices">
 
-<button onclick="attackEnemy()">
-攻撃！
-</button>
+<button onclick="selectAnswer(0)" id="choice0"></button>
+
+<button onclick="selectAnswer(1)" id="choice1"></button>
+
+<br>
+
+<button onclick="selectAnswer(2)" id="choice2"></button>
+
+<button onclick="selectAnswer(3)" id="choice3"></button>
+
+</div>
 
 </div>
 
