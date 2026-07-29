@@ -563,6 +563,8 @@ let enemy = null;
 let currentFieldEnemy=null;
 let battle = false;
 let bossTimer=null;
+let bossCount=5;
+let bossCountTimer=null;
 let battleCooldown = false;
 let shopCooldown = false;
 
@@ -1410,9 +1412,22 @@ gold:500
 };
 
 
-bossTimer=setInterval(()=>{
+let bossSeconds=5;
 
-if(battle && enemy && enemy.name==="👑 魔王ドラゴン"){
+document.getElementById("bossTimerText").textContent=
+"🔥 魔王攻撃まで "+bossSeconds+"秒";
+
+
+bossCountTimer=setInterval(()=>{
+
+bossSeconds--;
+
+
+document.getElementById("bossTimerText").textContent=
+"🔥 魔王攻撃まで "+bossSeconds+"秒";
+
+
+if(bossSeconds<=0){
 
 let damage=20;
 
@@ -1420,13 +1435,22 @@ player.hp-=damage;
 
 updateHP();
 
+
 alert(
-"🔥 魔王の攻撃！\n"+
+"🔥 魔王ドラゴンの攻撃！\n"+
 damage+"ダメージ！"
 );
 
 
+bossSeconds=5;
+
+
+}
+
+
 if(player.hp<=0){
+
+clearInterval(bossCountTimer);
 
 alert(
 "💀 魔王に敗北した..."
@@ -1436,9 +1460,9 @@ location.reload();
 
 }
 
-}
 
-},5000);
+},1000);
+
 
 
 showBattle();
@@ -2009,8 +2033,10 @@ battle=false;
 
 if(enemy.name==="👑 魔王ドラゴン"){
 
-clearInterval(bossTimer);
+clearInterval(bossCountTimer);
 
+document.getElementById("bossTimerText").textContent="";
+    
 bossDefeated=true;
 
 player.exp+=500;
@@ -2157,6 +2183,7 @@ font-size:25px;
 <div id="enemyName"></div>
 
 <div id="enemyHp"></div>
+<div id="bossTimerText"></div>
 
 <div style="
 width:300px;
