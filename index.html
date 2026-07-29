@@ -627,6 +627,7 @@ let inCave=false;
 
 let enemy = null;
 let currentFieldEnemy=null;
+let damageTexts=[];
 let battle = false;
 let bossTimer=null;
 let bossCount=5;
@@ -1392,6 +1393,27 @@ player.y+15,
 20
 );
 
+damageTexts.forEach(d=>{
+
+ctx.fillStyle="red";
+
+ctx.font="bold 30px sans-serif";
+
+ctx.fillText(
+d.text,
+d.x,
+d.y
+);
+
+d.y-=1;
+d.life--;
+
+});
+
+
+damageTexts =
+damageTexts.filter(d=>d.life>0);
+
 ctx.restore();
 
 
@@ -2065,6 +2087,14 @@ showMessage(
 
 enemy.hp-=damage;
 updateEnemyHP();
+damageTexts.push({
+
+x:enemy.x||400,
+y:enemy.y||250,
+text:"-"+damage,
+life:60
+
+});
 
 if(enemy.hp>0){
 
