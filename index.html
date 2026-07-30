@@ -541,6 +541,12 @@ if(e.key==="Enter" && battle){
 
 e.preventDefault();
 
+function showMessage(message){
+
+    document.getElementById("battleMessage").innerHTML = message;
+
+}
+    
 attackEnemy();
 
 }
@@ -2195,7 +2201,7 @@ if(enemy.hp<=0){
 
 battle=false;
 
-if(enemy.name==="👑 魔王ドラゴン"){
+if(enemy.name.includes("魔王ドラゴン")){
 
 clearInterval(bossCountTimer);
 
@@ -2403,6 +2409,15 @@ font-size:35px;
 color:#ffff00;
 min-height:50px;
 "></div>
+
+<div id="battleMessage"
+style="
+margin:15px;
+color:#fff;
+font-size:22px;
+min-height:40px;
+">
+</div>
 
 <input id="answerInput" style="display:none;">
 
