@@ -423,6 +423,7 @@ touchKeys[dir]=false;
 }
 
 let nearShop=false;
+let nearInn=false;
 let nearNpc=false;
 let nearCave=false;
 
@@ -486,6 +487,28 @@ keys[e.key]=true;
 
 
 if(e.key==="e" && nearShop){
+
+if(e.key==="e" && nearInn){
+
+    if(player.gold>=10){
+
+        player.gold-=10;
+        player.hp=player.maxHp;
+
+        updateHP();
+
+        document.getElementById("gold").textContent=
+        player.gold;
+
+        alert("🏨 宿屋で休んだ！HP全回復！");
+
+    }else{
+
+        alert("💰10G必要です");
+
+    }
+
+}
 
 alert(
 "🏪 武器屋\n\n"+
@@ -596,6 +619,12 @@ x:250,
 y:120,
 size:32
 
+};
+
+let inn={
+    x:350,
+    y:120,
+    size:32
 };
 
 // 魔王城
@@ -710,6 +739,12 @@ let shopDistance=Math.sqrt(
 
 
 nearShop = shopDistance < 60;
+let innDistance=Math.sqrt(
+    (player.x-inn.x)**2+
+    (player.y-inn.y)**2
+);
+
+nearInn = innDistance < 60;
 let npcDistance=Math.sqrt(
 
 (player.x-npc.x)**2+
@@ -1088,6 +1123,20 @@ shop.y-15
 );
 
 }
+
+// 宿屋
+ctx.fillStyle="pink";
+
+ctx.fillRect(
+    inn.x,
+    inn.y,
+    inn.size,
+    inn.size
+);
+
+ctx.fillStyle="white";
+ctx.font="18px sans-serif";
+ctx.fillText("🏨宿屋",inn.x-10,inn.y-10);
 
 // フィールド敵
 fieldEnemies.forEach(e=>{
