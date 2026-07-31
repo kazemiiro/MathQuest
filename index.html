@@ -1258,19 +1258,57 @@ e.y,
 
 
 // オオカミ
+else if(e.type==="オオカミ"){
 
-else{
-
-ctx.fillStyle="gray";
-
-ctx.fillRect(
-e.x,
-e.y,
-32,
-32
-);
+    ctx.fillStyle="gray";
+    ctx.fillRect(e.x,e.y,32,32);
 
 }
+
+// ドラゴン
+else if(e.type==="ドラゴン"){
+
+    // 体
+    ctx.fillStyle="darkred";
+    ctx.fillRect(e.x,e.y+8,36,20);
+
+    // 頭
+    ctx.fillStyle="red";
+    ctx.beginPath();
+    ctx.arc(e.x+18,e.y+8,10,0,Math.PI*2);
+    ctx.fill();
+
+    // 目
+    ctx.fillStyle="yellow";
+    ctx.fillRect(e.x+13,e.y+5,2,2);
+    ctx.fillRect(e.x+21,e.y+5,2,2);
+
+    // 羽
+    ctx.fillStyle="orange";
+
+    ctx.beginPath();
+    ctx.moveTo(e.x+4,e.y+18);
+    ctx.lineTo(e.x-12,e.y);
+    ctx.lineTo(e.x+6,e.y+10);
+    ctx.fill();
+
+    ctx.beginPath();
+    ctx.moveTo(e.x+30,e.y+18);
+    ctx.lineTo(e.x+46,e.y);
+    ctx.lineTo(e.x+28,e.y+10);
+    ctx.fill();
+
+}
+
+// その他
+else{
+
+    ctx.fillStyle="white";
+    ctx.fillRect(e.x,e.y,32,32);
+
+}
+
+
 
 });
 
