@@ -1806,7 +1806,7 @@ if(player.level <= 3){
 
 // 中1 正負の数
 
-type=Math.floor(Math.random()*3);
+type=Math.floor(Math.random()*8);
 
 
 if(type===0){
@@ -1859,6 +1859,44 @@ document.getElementById("question").textContent=
 
 }
 
+else if(type===3){
+
+// 割り算
+let b=Math.floor(Math.random()*9)+2;
+let ans=Math.floor(Math.random()*9)+2;
+let a=b*ans;
+
+answer=ans;
+
+document.getElementById("question").textContent=
+"🧮 "+a+" ÷ "+b+" = ?";
+
+}
+
+}
+
+else if(type===4){
+
+// 絶対値
+let a=Math.floor(Math.random()*21)-10;
+
+answer=Math.abs(a);
+
+document.getElementById("question").textContent=
+"🧮 |"+a+"| = ?";
+
+}
+
+else if(type===5){
+
+// 正負の数の掛け算
+let a=Math.floor(Math.random()*11)-5;
+let b=Math.floor(Math.random()*11)-5;
+
+answer=a*b;
+
+document.getElementById("question").textContent=
+"🧮 ("+a+") × ("+b+") = ?";
 
 }
 
@@ -1880,9 +1918,9 @@ answer=x;
 explanation=
 "x="+x;
 
+document.getElementById("question").textContent =
+"🧮 x + "+a+" = "+(x+a)+"　（xを求めよ）";
 
-document.getElementById("question").textContent=
-"🧮 x + "+a+" = "+(x+a)+"\n xを求めよ";
 
 
 
