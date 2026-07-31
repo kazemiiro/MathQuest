@@ -998,7 +998,7 @@ canvas.style.display="block";
 document.getElementById("info").style.display="block";
 
 
-
+updateHP();
 requestAnimationFrame(loop);
 
 }
@@ -2455,7 +2455,7 @@ if(enemy.hp<=0){
     return;
 }
 
-let defeatedName = enemy.name;
+let defeatedName = enemy.name || "敵";
     
 let input=
 document.getElementById("answerInput").value;
@@ -2546,7 +2546,7 @@ if(enemy.hp<=0){
 
 battle=false;
 
-if(enemy.name.includes("魔王ドラゴン")){
+if(enemy && enemy.name.includes("魔王ドラゴン")){
 
 if(!bossSecondPhase){
 
