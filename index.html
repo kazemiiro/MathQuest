@@ -468,6 +468,112 @@ EXP:
     
 
 
+
+
+<div id="battleUI" style="
+display:none;
+position:absolute;
+bottom:20px;
+left:50%;
+transform:translateX(-50%);
+background:
+linear-gradient(
+180deg,
+#300000,
+#050505
+);
+
+border:4px solid gold;
+
+box-shadow:
+0 0 30px red;
+width:600px;
+padding:20px;
+text-align:center;
+font-size:25px;
+">
+
+<div id="enemyName"></div>
+
+<div id="enemyHp"></div>
+<div id="bossTimerText"></div>
+
+<div style="
+width:300px;
+height:20px;
+background:#555;
+border:2px solid white;
+margin:auto;
+">
+
+<div id="enemyHpBar" style="
+width:100%;
+height:100%;
+background:lime;
+">
+</div>
+
+</div>
+
+<div id="question" style="
+margin:20px;
+font-size:35px;
+color:#ffff00;
+min-height:50px;
+"></div>
+
+<div id="battleMessage"
+style="
+margin:15px;
+color:#fff;
+font-size:22px;
+min-height:40px;
+">
+</div>
+
+<input id="answerInput" style="display:none;">
+
+
+<div id="choices">
+
+<button onclick="selectAnswer(0)" id="choice0"></button>
+
+<button onclick="selectAnswer(1)" id="choice1"></button>
+
+<br>
+
+<button onclick="selectAnswer(2)" id="choice2"></button>
+
+<button onclick="selectAnswer(3)" id="choice3"></button>
+
+</div>
+
+</div>
+
+<div id="clearUI" style="
+display:none;
+position:absolute;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:#000;
+color:white;
+font-size:50px;
+text-align:center;
+padding-top:200px;
+">
+
+🎉 Math Quest クリア！ 🎉
+
+<br>
+
+<button onclick="location.reload()">
+もう一度遊ぶ
+</button>
+
+</div>
+
 <script>
 
 
@@ -999,10 +1105,12 @@ document.getElementById("info").style.display="block";
 
 
 updateHP();
+
+document.getElementById("mobileControls").style.display="block";
+
 requestAnimationFrame(loop);
 
 }
-
 
 
 
@@ -2039,7 +2147,7 @@ let type;
 if(difficulty==="easy"){
 
 
-let type=Math.floor(Math.random()*9);
+type=Math.floor(Math.random()*9);
 
 if(type===0){
 
@@ -2713,111 +2821,6 @@ currentFieldEnemy=null;
 
 
 </script>
-
-<div id="battleUI" style="
-display:none;
-position:absolute;
-bottom:20px;
-left:50%;
-transform:translateX(-50%);
-background:
-linear-gradient(
-180deg,
-#300000,
-#050505
-);
-
-border:4px solid gold;
-
-box-shadow:
-0 0 30px red;
-width:600px;
-padding:20px;
-text-align:center;
-font-size:25px;
-">
-
-<div id="enemyName"></div>
-
-<div id="enemyHp"></div>
-<div id="bossTimerText"></div>
-
-<div style="
-width:300px;
-height:20px;
-background:#555;
-border:2px solid white;
-margin:auto;
-">
-
-<div id="enemyHpBar" style="
-width:100%;
-height:100%;
-background:lime;
-">
-</div>
-
-</div>
-
-<div id="question" style="
-margin:20px;
-font-size:35px;
-color:#ffff00;
-min-height:50px;
-"></div>
-
-<div id="battleMessage"
-style="
-margin:15px;
-color:#fff;
-font-size:22px;
-min-height:40px;
-">
-</div>
-
-<input id="answerInput" style="display:none;">
-
-
-<div id="choices">
-
-<button onclick="selectAnswer(0)" id="choice0"></button>
-
-<button onclick="selectAnswer(1)" id="choice1"></button>
-
-<br>
-
-<button onclick="selectAnswer(2)" id="choice2"></button>
-
-<button onclick="selectAnswer(3)" id="choice3"></button>
-
-</div>
-
-</div>
-
-<div id="clearUI" style="
-display:none;
-position:absolute;
-top:0;
-left:0;
-width:100%;
-height:100%;
-background:#000;
-color:white;
-font-size:50px;
-text-align:center;
-padding-top:200px;
-">
-
-🎉 Math Quest クリア！ 🎉
-
-<br>
-
-<button onclick="location.reload()">
-もう一度遊ぶ
-</button>
-
-</div>
-
 
 </body>
 </html>
