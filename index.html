@@ -2207,9 +2207,13 @@ battle=false;
 
 if(enemy.name.includes("魔王ドラゴン")){
 
-clearInterval(bossCountTimer);
+if(!bossSecondPhase){
 
-document.getElementById("bossTimerText").textContent="";
+    clearInterval(bossCountTimer);
+
+    document.getElementById("bossTimerText").textContent="";
+
+}
     
 if(!bossSecondPhase){
 
@@ -2237,6 +2241,8 @@ return;
 
 }
 
+clearInterval(bossCountTimer);
+document.getElementById("bossTimerText").textContent="";
 
 player.exp+=500;
 player.gold+=500;
