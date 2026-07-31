@@ -632,11 +632,13 @@ let inn={
 
 let bossCastle={
 
-x:850,
-y:520,
-size:50
+x:2800,
+y:1800,
+
+size:80
 
 };
+    
 
 let bossDefeated=false;
 let bossSecondPhase=false;
@@ -668,41 +670,84 @@ let shopCooldown = false;
 // フィールド敵
 let fieldEnemies=[
 
+// 村周辺
 {
 x:500,
 y:200,
 size:32,
 alive:true,
 type:"スライム",
-
 dx:1,
 dy:1,
 speed:1.5
 },
-
 {
-    x:700,
-    y:400,
-    size:32,
-    alive:true,
-    type:"ゴブリン",
-
-    dx:-1,
-    dy:1,
-    speed:2
+x:700,
+y:350,
+size:32,
+alive:true,
+type:"スライム",
+dx:-1,
+dy:1,
+speed:1.5
 },
 
+// 森
 {
-    x:300,
-    y:500,
-    size:32,
-    alive:true,
-    type:"オオカミ",
+x:1100,
+y:500,
+size:32,
+alive:true,
+type:"ゴブリン",
+dx:1,
+dy:-1,
+speed:2
+},
+{
+x:1400,
+y:800,
+size:32,
+alive:true,
+type:"ゴブリン",
+dx:-1,
+dy:1,
+speed:2
+},
 
-    dx:1,
-    dy:-1,
-    speed:3
+// 洞窟
+{
+x:1800,
+y:1000,
+size:32,
+alive:true,
+type:"オオカミ",
+dx:1,
+dy:1,
+speed:3
+},
+{
+x:2000,
+y:1300,
+size:32,
+alive:true,
+type:"オオカミ",
+dx:-1,
+dy:-1,
+speed:3
+},
+
+// 火山前
+{
+x:2500,
+y:1600,
+size:32,
+alive:true,
+type:"ドラゴン",
+dx:1,
+dy:0,
+speed:2
 }
+
 ];
 
 
@@ -1596,10 +1641,16 @@ player.hp-=damage;
 updateHP();
 
 
-alert(
-"🔥 魔王ドラゴンの攻撃！\n"+
-damage+"ダメージ！"
+showMessage(
+"🔥 魔王の炎！ "+damage+"ダメージ！"
 );
+
+damageTexts.push({
+    x:player.x,
+    y:player.y,
+    text:"-"+damage,
+    life:60
+});
 
 
 bossSeconds=5;
