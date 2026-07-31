@@ -439,33 +439,13 @@ EXP:
 <canvas id="game" width="960" height="640"></canvas>
 <div id="mobileControls">
 
+<button id="up">▲</button>
 
-<button ontouchstart="moveStart('up')"
-ontouchend="moveEnd('up')">
-▲
-</button>
-
-
-<br>
-
-
-<button ontouchstart="moveStart('left')"
-ontouchend="moveEnd('left')">
-◀
-</button>
-
-
-<button ontouchstart="moveStart('down')"
-ontouchend="moveEnd('down')">
-▼
-</button>
-
-
-<button ontouchstart="moveStart('right')"
-ontouchend="moveEnd('right')">
-▶
-</button>
-
+<div>
+<button id="left">◀</button>
+<button id="down">▼</button>
+<button id="right">▶</button>
+</div>
 
 </div>
 
@@ -570,6 +550,44 @@ function moveEnd(dir){
 touchKeys[dir]=false;
 
 }
+
+function setupMobileButton(id,dir){
+
+let btn=document.getElementById(id);
+
+
+btn.addEventListener("pointerdown",e=>{
+
+e.preventDefault();
+
+touchKeys[dir]=true;
+
+});
+
+
+btn.addEventListener("pointerup",e=>{
+
+e.preventDefault();
+
+touchKeys[dir]=false;
+
+});
+
+
+btn.addEventListener("pointerleave",()=>{
+
+touchKeys[dir]=false;
+
+});
+
+
+}
+
+
+setupMobileButton("up","up");
+setupMobileButton("down","down");
+setupMobileButton("left","left");
+setupMobileButton("right","right");
 
 let nearShop=false;
 let nearInn=false;
