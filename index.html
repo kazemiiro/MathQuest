@@ -160,6 +160,7 @@ font-size:18px;
 #question{
 
 font-size:25px!important;
+white-space:pre-line;
 
 }
 
@@ -485,9 +486,7 @@ alert(
 
 keys[e.key]=true;
 
-
-if(e.key==="e" && nearShop){
-
+// 宿屋
 if(e.key==="e" && nearInn){
 
     if(player.gold>=10){
@@ -497,8 +496,7 @@ if(e.key==="e" && nearInn){
 
         updateHP();
 
-        document.getElementById("gold").textContent=
-        player.gold;
+        document.getElementById("gold").textContent=player.gold;
 
         alert("🏨 宿屋で休んだ！HP全回復！");
 
@@ -510,13 +508,17 @@ if(e.key==="e" && nearInn){
 
 }
 
-alert(
-"🏪 武器屋\n\n"+
-"1キー：鉄の剣（20G）\n"+
-"2キー：鉄の鎧（30G）"
-);
+// 武器屋
+if(e.key==="e" && nearShop){
+
+    alert(
+    "🏪 武器屋\n\n"+
+    "1キー：鉄の剣（20G）\n"+
+    "2キー：鉄の鎧（30G）"
+    );
 
 }
+
 
 if(nearShop){
 
@@ -540,13 +542,6 @@ usePotion();
 if(e.key==="Enter" && battle){
 
 e.preventDefault();
-
-function showMessage(message){
-
-    document.getElementById("battleMessage").innerHTML = message;
-
-}
-    
 attackEnemy();
 
 }
@@ -1981,7 +1976,11 @@ if(shopCooldown){
 }
 
 shopCooldown=true;
+setTimeout(()=>{
 
+    shopCooldown=false;
+
+},300);
 
 
 
@@ -2099,6 +2098,11 @@ function showBattle(){
 
 }
 
+function showMessage(message){
+
+    document.getElementById("battleMessage").innerHTML = message;
+
+}
 
 function attackEnemy(){
 
@@ -2215,6 +2219,9 @@ enemy.hp=500;
 enemy.maxHp=500;
 
 enemy.name="🔥 覚醒魔王ドラゴン";
+document.getElementById("enemyName").textContent =
+"⚔ "+enemy.name;
+
 
 alert(
 "👑 魔王ドラゴン\n\n"+
@@ -2246,6 +2253,8 @@ alert(
 "EXP +500\n"+
 "💰500G"
 );
+
+bossDefeated=true;
 
 
 document.getElementById("battleUI").style.display="none";
