@@ -1826,10 +1826,7 @@ let type;
 
 if(player.level <= 3){
 
-// 中1 正負の数
-
-type=Math.floor(Math.random()*8);
-
+let type=Math.floor(Math.random()*6);
 
 if(type===0){
 
@@ -1838,15 +1835,10 @@ let b=Math.floor(Math.random()*20)-10;
 
 answer=a+b;
 
-explanation=
-a+" + "+b+" = "+answer;
-
 document.getElementById("question").textContent=
 "🧮 "+a+" + ("+b+") = ?";
 
-
 }
-
 
 else if(type===1){
 
@@ -1855,26 +1847,17 @@ let b=Math.floor(Math.random()*20);
 
 answer=a-b;
 
-explanation=
-a+" - "+b+" = "+answer;
-
 document.getElementById("question").textContent=
 "🧮 "+a+" - "+b+" = ?";
 
-
 }
 
-
-else{
-
+else if(type===2){
 
 let a=Math.floor(Math.random()*9)+2;
 let b=Math.floor(Math.random()*9)+2;
 
 answer=a*b;
-
-explanation=
-a+" × "+b+" = "+answer;
 
 document.getElementById("question").textContent=
 "🧮 "+a+" × "+b+" = ?";
@@ -1883,23 +1866,18 @@ document.getElementById("question").textContent=
 
 else if(type===3){
 
-// 割り算
 let b=Math.floor(Math.random()*9)+2;
-let ans=Math.floor(Math.random()*9)+2;
-let a=b*ans;
+let x=Math.floor(Math.random()*9)+2;
 
-answer=ans;
+answer=x;
 
 document.getElementById("question").textContent=
-"🧮 "+a+" ÷ "+b+" = ?";
-
-}
+"🧮 "+(b*x)+" ÷ "+b+" = ?";
 
 }
 
 else if(type===4){
 
-// 絶対値
 let a=Math.floor(Math.random()*21)-10;
 
 answer=Math.abs(a);
@@ -1909,9 +1887,8 @@ document.getElementById("question").textContent=
 
 }
 
-else if(type===5){
+else{
 
-// 正負の数の掛け算
 let a=Math.floor(Math.random()*11)-5;
 let b=Math.floor(Math.random()*11)-5;
 
@@ -1919,6 +1896,8 @@ answer=a*b;
 
 document.getElementById("question").textContent=
 "🧮 ("+a+") × ("+b+") = ?";
+
+}
 
 }
 
