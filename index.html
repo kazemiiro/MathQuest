@@ -1017,9 +1017,7 @@ nearCave = caveDistance < 60;
 
 draw();
 
-setTimeout(()=>{
 requestAnimationFrame(loop);
-},16);
 
 if(player.x<0)
 player.x=0;
@@ -1091,7 +1089,6 @@ touchKeys["right"]
 fieldEnemies.forEach(e=>{
 
 if(!e.alive) return;
-    if(!e.alive) return;
 
     e.x += e.dx * e.speed;
     e.y += e.dy * e.speed;
