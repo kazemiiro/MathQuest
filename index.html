@@ -268,30 +268,29 @@ canvas{
 
 }
 
-
 #mobileControls button{
 
-    width:65px;
-    height:65px;
+    width:80px;
+    height:80px;
 
     margin:3px;
 
-    border-radius:15px;
+    border-radius:50%;
+
+    font-size:40px;
 
     background:
-    linear-gradient(
-    #444,
-    #111
-    );
+    linear-gradient(#555,#111);
 
     color:white;
 
     border:3px solid gold;
 
     box-shadow:
-    0 0 10px black;
+    0 0 15px black;
 
 }
+
 
 
 /* 戦闘UIスマホ化 */
@@ -378,7 +377,22 @@ canvas{
 <button onclick="startGame()">
 はじめから
 </button>
+<select id="difficulty">
 
+<option value="easy">
+かんたん
+</option>
+
+<option value="normal" selected>
+ふつう
+</option>
+
+<option value="hard">
+むずかしい
+</option>
+
+</select>
+    
 </div>
 
 <div id="info">
@@ -447,6 +461,8 @@ EXP:
 <button id="right">▶</button>
 </div>
 
+<button id="attackButton">⚔</button>
+
 </div>
 
     
@@ -494,7 +510,7 @@ y:Math.random()*world.height
 }
 
 // プレイヤー
-
+let difficulty="normal";
     let player={
 
 x:100,
@@ -555,33 +571,25 @@ function setupMobileButton(id,dir){
 
 let btn=document.getElementById(id);
 
-
 btn.addEventListener("pointerdown",e=>{
-
-e.preventDefault();
-
-touchKeys[dir]=true;
-
+    e.preventDefault();
+    touchKeys[dir]=true;
 });
-
 
 btn.addEventListener("pointerup",e=>{
-
-e.preventDefault();
-
-touchKeys[dir]=false;
-
+    e.preventDefault();
+    touchKeys[dir]=false;
 });
 
+btn.addEventListener("pointercancel",()=>{
+    touchKeys[dir]=false;
+});
 
 btn.addEventListener("pointerleave",()=>{
-
-touchKeys[dir]=false;
-
+    touchKeys[dir]=false;
 });
 
-
-}
+}9,10
 
 
 setupMobileButton("up","up");
@@ -976,10 +984,14 @@ speed:2
 let enemyRespawnTime = 5000;
 
 
-
 function startGame(){
 
+difficulty=
+document.getElementById("difficulty").value;
+
+
 document.getElementById("title").style.display="none";
+
 
 canvas.style.display="block";
 
@@ -2019,14 +2031,15 @@ function updateHP(){
 
 }
 
-function makeQuestion(){
+    function makeQuestion(){
 
 let type;
 
 
-if(player.level <= 3){
+if(difficulty==="easy"){
 
-let type=Math.floor(Math.random()*6);
+
+let type=Math.floor(Math.random()*9);
 
 if(type===0){
 
