@@ -593,6 +593,7 @@ let camera={
 x:0,
 y:0
 };
+let shake = 0;
 
 // 草模様データ
 
@@ -1311,6 +1312,16 @@ function draw(){
 camera.x = player.x - canvas.width/2;
 camera.y = player.y - canvas.height/2;
 
+
+if(shake>0){
+
+camera.x += Math.random()*10-5;
+camera.y += Math.random()*10-5;
+
+shake--;
+
+}
+
 camera.x=Math.max(
 0,
 Math.min(camera.x,world.width-canvas.width)
@@ -1607,6 +1618,7 @@ e.y,
 // オオカミ
 else if(e.type==="オオカミ"){
 
+    
     ctx.fillStyle="gray";
     ctx.fillRect(e.x,e.y,32,32);
 
@@ -1877,7 +1889,7 @@ damageTexts.forEach(d=>{
 
 ctx.fillStyle="red";
 
-ctx.font="bold 30px sans-serif";
+ctx.font="bold 45px sans-serif";
 
 ctx.fillText(
 d.text,
@@ -2586,9 +2598,11 @@ if(Math.random()<0.2){
 damage*=2;
 
 showMessage(
-"✨クリティカル！ "+damage+"ダメージ！"
+"🔥✨ CRITICAL HIT!! ✨🔥<br>"+
+damage+" ダメージ！"
 );
 
+shake=20;
 }else{
 
 showMessage(
@@ -2600,6 +2614,7 @@ showMessage(
 
 enemy.hp-=damage;
 updateEnemyHP();
+shake=10;
 damageTexts.push({
 
 x:enemy.x||400,
