@@ -391,11 +391,7 @@ canvas{
     <option value="normal" selected>ふつう</option>
     <option value="hard">むずかしい</option>
 </select>
-
-    <option value="easy">かんたん</option>
-    <option value="normal" selected>ふつう</option>
-    <option value="hard">むずかしい</option>
-</select>
+    
     
 </div>
 
@@ -465,7 +461,6 @@ EXP:
 <button id="right">▶</button>
 </div>
 
-<button id="attackButton">⚔</button>
 
 </div>
 
@@ -535,7 +530,6 @@ min-height:40px;
 ">
 </div>
 
-<input id="answerInput" style="display:none;">
 
 
 <div id="choices">
@@ -859,12 +853,7 @@ usePotion();
 
 }
 
-if(e.key==="Enter" && battle){
 
-e.preventDefault();
-attackEnemy();
-
-}
 
 });
 
@@ -948,27 +937,7 @@ let inn={
     size:32
 };
 
-let chests=[
 
-{
-x:900,
-y:300,
-opened:false
-},
-
-{
-x:1600,
-y:900,
-opened:false
-},
-
-{
-x:2400,
-y:1500,
-opened:false
-}
-
-];
 
 // 魔王城
 
@@ -1918,16 +1887,7 @@ player.y+14,
 
 
 
-// 剣
 
-ctx.fillStyle="silver";
-
-ctx.fillRect(
-player.x+25,
-player.y+15,
-5,
-20
-);
 
 damageTexts.forEach(d=>{
 
@@ -2153,13 +2113,7 @@ document.getElementById("choice3").textContent = choices[3];
 
 function selectAnswer(index){
 
-let input=choices[index];
-
-
-document.getElementById("answerInput").value=input;
-
-
-attackEnemy();
+    attackEnemy(choices[index]);
 
 }
 
@@ -2200,9 +2154,11 @@ function updateHP(){
 
 }
 
-    function makeQuestion(){
+function makeQuestion(){
 
-let type;
+    explanation="";
+
+    let type;
 
 
 if(difficulty==="easy"){
@@ -2593,20 +2549,15 @@ function showBattle(){
 
     document.getElementById("battleUI").style.display="block";
 
+    // ★追加
+    document.getElementById("mobileControls").style.display="none";
+
     document.getElementById("enemyName").textContent=
     "⚔ "+enemy.name;
 
     updateEnemyHP();
 
     makeQuestion();
-
-
-    // 回答欄へ自動移動
-    setTimeout(()=>{
-
-        document.getElementById("answerInput").focus();
-
-    },100);
 
 }
 
@@ -2616,7 +2567,7 @@ function showMessage(message){
 
 }
 
-function attackEnemy(){
+function attackEnemy(input){
 
 if(!battle || !enemy){
     return;
@@ -2627,9 +2578,7 @@ if(enemy.hp<=0){
 }
 
 let defeatedName = enemy.name || "敵";
-    
-let input=
-document.getElementById("answerInput").value;
+
 
 
 if(Number(input)===answer){
@@ -2680,12 +2629,10 @@ if(enemy.hp>0){
 
 else{
 
-
-let damage=Math.max(1,10-player.defense);
-
+let damage=10-player.defense;
 
 if(damage<1){
-damage=1;
+    damage=1;
 }
 
 player.hp-=damage;
@@ -2713,7 +2660,6 @@ location.reload();
 }
 
 
-document.getElementById("answerInput").value="";
 
 
 if(enemy.hp<=0){
@@ -2845,10 +2791,13 @@ levelCheck();
 document.getElementById("gold").textContent=
 player.gold;
 
-
 document.getElementById("battleUI").style.display="none";
 
+// ★追加
+document.getElementById("mobileControls").style.display="block";
+
 battleCooldown=true;
+
 
 setTimeout(()=>{
 
