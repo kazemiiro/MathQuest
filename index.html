@@ -378,24 +378,23 @@ canvas{
 <div id="title">
 
 <h1>⚔ Math Quest</h1>
-
 <button onclick="startGame()">
 はじめから
 </button>
+
+<button onclick="loadGame()">
+つづきから
+</button>
+
 <select id="difficulty">
+    <option value="easy">かんたん</option>
+    <option value="normal" selected>ふつう</option>
+    <option value="hard">むずかしい</option>
+</select>
 
-<option value="easy">
-かんたん
-</option>
-
-<option value="normal" selected>
-ふつう
-</option>
-
-<option value="hard">
-むずかしい
-</option>
-
+    <option value="easy">かんたん</option>
+    <option value="normal" selected>ふつう</option>
+    <option value="hard">むずかしい</option>
 </select>
     
 </div>
@@ -650,6 +649,41 @@ walk:0
 
         
 };
+
+function saveGame(){
+
+localStorage.setItem("mathquest",JSON.stringify(player));
+
+}
+
+function loadGame(){
+
+let data=localStorage.getItem("mathquest");
+
+if(!data){
+
+alert("セーブデータがありません");
+
+return;
+
+}
+
+player=JSON.parse(data);
+
+document.getElementById("title").style.display="none";
+canvas.style.display="block";
+document.getElementById("info").style.display="block";
+
+updateHP();
+
+document.getElementById("lv").textContent=player.level;
+document.getElementById("exp").textContent=player.exp;
+document.getElementById("gold").textContent=player.gold;
+document.getElementById("weapon").textContent=player.weapon;
+
+requestAnimationFrame(loop);
+
+}
 
 // キー
 
@@ -1540,7 +1574,17 @@ ctx.fillRect(
 
 ctx.fillStyle="white";
 ctx.font="18px sans-serif";
-ctx.fillText("🏨宿屋",inn.x-10,inn.y-10);
+
+if(nearInn){
+
+    ctx.fillText(
+        "Eキーで宿屋",
+        inn.x-20,
+        inn.y-15
+    );
+
+}
+
 
 // フィールド敵
 fieldEnemies.forEach(e=>{
@@ -2241,7 +2285,7 @@ document.getElementById("question").textContent=
 
 
 
-else if(player.level <= 6){
+else if(difficulty==="hard"){
 
 // 中1〜中2 一次方程式
 
@@ -2396,6 +2440,8 @@ alert(
 );
 
 }
+
+saveGame();
 
 }
 
@@ -2650,7 +2696,7 @@ updateHP();
 showMessage(
 "❌ 不正解！ 正解："+answer+
 "<br>"+explanation+
-"<br>10ダメージ"
+"<br>"+damage+"ダメージ"
 );
 
 
@@ -2831,6 +2877,8 @@ setTimeout(()=>{
 
 
 currentFieldEnemy=null;
+
+saveGame();
 
 }
 
